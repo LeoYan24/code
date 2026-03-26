@@ -1,0 +1,14 @@
+[submodule "Math-behind-Signal-and-System"]
+	path = Math-behind-Signal-and-System
+	url = git@github.com:leoYzj/Math-behind-Signal-and-System.git
+[submodule "Math_behind_Signal_and_System"]
+	path = Math_behind_Signal_and_System
+	url = git@github.com:leoYzj/Math_behind_Signal_and_System.git
+
+[submodule "ss-simulations"]
+    path = ss-simulations
+    url = https://gitee.com/robinhou/ss-simulations.git
+
+[submodule "ss-simulations"]
+    path = ss-simulations
+    url = https://gitee.com/robinhou/ss-simulations.git

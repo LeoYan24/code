@@ -1,0 +1,185 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{indentfirst}
+\usepackage{bm}
+\usepackage{array}
+\usepackage{url}
+\usepackage{cite}
+\usepackage{multicol}
+\usepackage{fancyhdr}
+\usepackage{booktabs}
+\usepackage{titlesec}
+\usepackage{caption}
+\usepackage{lastpage}
+
+% 页面设置
+\geometry{top=2.5cm, bottom=2.5cm, left=2cm, right=2cm}
+
+% 设置行距
+\renewcommand{\baselinestretch}{1.25}
+
+% 设置页眉页脚
+\pagestyle{fancy}
+\fancyhf{} % 清除所有页眉页脚
+% 第一页特殊设置 - 只有顶部水平线，没有页眉线
+\fancypagestyle{firstpage}{
+    \fancyhf{} % 清除所有页眉页脚
+    \renewcommand{\headrulewidth}{0pt} % 第一页没有页眉线
+    \fancyfoot[C]{\zihao{-6}\songti 课程名称：\quad 实验日期：2025-10-28.\quad 作者简介：邓成宇(2005)，男，班级：2024217802，学号:2024212624，电话:18201602872，E-mail：dcy76844268.53@qq.com；严子竣(2006)，男，班级：2024217802，学号：2024212622，电话：18010010176，E-mail:2024212622@bupt.cn} % 页脚
+}
+% 其他页设置 - 有页眉线
+\fancyhead{} % 清除页眉
+\renewcommand{\headrulewidth}{1pt} % 其他页有页眉线
+\fancyfoot[C]{\zihao{-6}\songti 课程名称：大学物理实验\quad 实验日期：2025-10-28.\quad 作者简介：邓成宇(2005)，男，班级：2024217802，学号:2024212624，电话:18201602872，E-mail：dcy76844268.53@qq.com；严子竣(2006)，男，班级：2024217802，学号：2024212622，电话：18010010176，E-mail:2024212622@bupt.cn} % 页脚
+
+% 设置章节格式
+\titleformat{\section}{\zihao{-4}\heiti}{\thesection}{1em}{}
+\titleformat{\subsection}{\zihao{5}\heiti}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\zihao{5}\kaishu}{\thesubsubsection}{1em}{}
+
+% 设置段前段后间距
+\titlespacing*{\section}{0pt}{0.5\baselineskip}{0.5\baselineskip}
+\titlespacing*{\subsection}{0pt}{0.5\baselineskip}{0.25\baselineskip}
+\titlespacing*{\subsubsection}{0pt}{0.25\baselineskip}{0.25\baselineskip}
+
+% 设置图表标题格式
+%\captionsetup[table]{font=small, skip=5pt}
+%\captionsetup[figure]{font=small, skip=5pt}
+
+\begin{document}
+
+% 第一页使用特殊页眉样式
+\thispagestyle{firstpage}
+
+% 顶部水平线（只保留这一条）
+\vspace*{-2cm}
+\hrule width \textwidth height 1pt
+\vspace{1.5cm}
+
+% 中文标题部分 - 通栏排版
+\begin{center}
+    {\zihao{-2}\heiti 混沌扭摆实验研究} \\[0.5\baselineskip]
+
+    {\zihao{4}\kaishu 邓成宇\textsuperscript{1}，严子竣\textsuperscript{2}} \\[0.3\baselineskip]
+
+    {\zihao{-5}\kaishu (1. 北京邮电大学，100083；2. 北京邮电大学，100083)} \\[0.5\baselineskip]
+\end{center}
+
+% 中文摘要和关键词 - 左右各缩进2字符
+\begin{quote}
+    \zihao{-5}\songti
+    \setlength{\leftskip}{2em}
+    \setlength{\rightskip}{2em}
+
+    \noindent{\heiti 摘\quad 要：}本实验基于非线性动力学理论，研究了混沌扭摆系统的复杂动力学行为。通过在玻尔共振仪摆轮上增加重物，将线性系统改造为非线性系统，利用LabVIEW软件和数据采集系统实时测量摆轮的角度和角速度，构建相图分析系统状态。实验观察到了周期一、周期二、单吸引子和双吸引子等多种运动状态，验证了倍周期分岔通向混沌的路径。结果表明该方法能有效重构系统的动力学特性。本实验深入揭示了非线性系统中的混沌现象，为理解复杂动力学行为提供了实验依据。
+
+    \vspace{0.5\baselineskip}
+    \noindent{\heiti 关键词：}混沌；非线性动力学；扭摆；倍周期分岔；相图
+
+    \noindent{\heiti 中图分类号：}O322\quad{\heiti 文献标识码：}A
+\end{quote}
+
+\vspace{1cm}
+
+% 英文标题部分 - 通栏排版
+\begin{center}
+    {\fontsize{15}{18}\selectfont\bfseries Experimental Study of Chaotic Torsional Pendulum} \\[0.3\baselineskip]
+
+    {\fontsize{10.5}{12.6}\selectfont Chengyu Deng\textsuperscript{1}, Zijun Yan\textsuperscript{2}} \\[0.3\baselineskip]
+
+    {\fontsize{9}{10.8}\selectfont\itshape (1. Beijing University of Post and Telecommunication, Beijing, 100083, China; 2. Beijing University of Post and Telecommunication, Beijing, 100083, China)} \\[0.5\baselineskip]
+\end{center}
+
+% 英文摘要和关键词
+\begin{quote}
+    \fontsize{9}{10.8}\selectfont
+    \setlength{\leftskip}{2em}
+    \setlength{\rightskip}{2em}
+
+    \noindent{\bfseries Abstract：}Based on nonlinear dynamics theory, this experiment investigates the complex dynamic behaviors of a chaotic torsional pendulum system. By adding a weight to the pendulum wheel of a Bohr resonance apparatus, the linear system is transformed into a nonlinear one. Using LabVIEW software and a data acquisition system, the angle and angular velocity of the pendulum wheel are measured in real-time to construct phase diagrams for analyzing system states. The experiment observed various motion states including period-1, period-2,  single attractor, and double attractor states, verifying the route to chaos through period-doubling bifurcations. Results shows that this method can effectively reconstruct the system's dynamic characteristics. This experiment deeply reveals chaotic phenomena in nonlinear systems and provides experimental evidence for understanding complex dynamic behaviors.
+    
+    \vspace{0.5\baselineskip}
+    \noindent{\bfseries Keywords：}chaos; nonlinear dynamics; torsional pendulum; period-doubling bifurcation; phase diagram
+\end{quote}
+
+\vspace{1cm}
+
+% 正文开始 - 双栏排版
+\begin{multicols}{2}
+
+    % 引言
+    \section*{\zihao{-4}\heiti 引言}
+    \zihao{5}\songti
+    \setlength{\parindent}{2em}
+
+    混沌是近代科学中引人注目的热点研究领域，被认为是继相对论和量子力学以来基础科学的第三次革命。混沌是指在确定性系统中出现的无规则运动，其研究目的在于揭示貌似随机现象背后可能隐藏的简单规律。混沌扭摆实验通过在线性玻尔共振仪上增加重物，将系统改造为非线性动力学系统，从而可以观察到丰富的动力学行为，包括周期运动、倍周期分岔和混沌现象。本实验旨在通过构建混沌扭摆装置，研究不同驱动频率下系统的运动状态，分析相图特征，并利用现代计算方法预测混沌轨道，深入理解非线性系统的复杂动力学特性。
+    
+    \section{\zihao{-4}\heiti 实验原理与方法}
+    \subsection{\zihao{5}\heiti 混沌扭摆动力学模型}
+    \zihao{5}\songti
+    增加重物后，摆轮的运动方程为：
+    \begin{equation}
+        J \frac{d^2 \theta}{dt^2} + b \frac{d \theta}{dt} + k \theta = M \cos(2 \pi f t) + mg r \sin \theta
+    \end{equation}
+    其中，$J$是摆轮及丝杠螺母的总转动惯量，$\theta$是摆轮的角度，$b$是系统的阻尼系数，$k$是弹簧的倔强系数，$M$是驱动力矩，$f$是驱动频率，$m$是重物的质量，$g$是重力加速度，$r$是重物重心离旋转中心的距离。
+    
+    将方程两边同时除以$J$，可化为：
+    \begin{equation}
+        \frac{d^2\theta}{dt^2} + b'\frac{d\theta}{dt} + k'\theta = M' \cos(2\pi ft) + G' \sin \theta
+    \end{equation}
+    其中，$b'=b/J$, $k'=k/J$, $M'=M/J$, $G'=mgr/J$。$G'\sin\theta$项为非线性项，正是此项的存在使得系统可能表现出混沌行为。
+
+    \subsection{\zihao{5}\heiti 实验装置与数据采集}
+    
+    实验装置包括摆轮、重物、驱动电机、角度传感器、采集卡和计算机软件等。装置的驱动采用步进电机，可以用脉冲信号精确控制其旋转角度。摆轮后面同轴连接着角度传感器，直接记录摆轮转过的角度，数据通过采集卡进入计算机。
+    
+    装置的角度显示和电机控制均由LabVIEW软件和数据采集卡实现，能实时显示摆轮的角度及其最后30秒的时序图、频谱图和角速度-角度相图等。软件有四种工作模式：频率保持模式、直接降低模式、直接上升模式和先降后升模式。
+
+    \subsection{\zihao{5}\heiti 实验步骤}
+    
+    \begin{enumerate}
+        \item 角度零点校正：关闭驱动电机电源，用手转动电机至刻度指向零相位，接通电源，启动软件，确保软件测量的角度与摆轮的实际角度一致。
+        \item 测量阻尼系数$b$和弹簧倔强系数$k$：无重物时，将摆轮搬到超过$140^\circ$后释放，记录衰减过程，根据频谱图记录系统自由振荡的固有频率并计算倔强系数，再根据振幅衰减计算阻尼系数。
+        \item 安装重物：安装重物使摆轮偏转约$35^\circ$-$40^\circ$，记录左右两个平衡角度，计算系统参数$G'$。
+        \item 观察不同相图：选择不同驱动频率（0.300Hz-0.600Hz），观察系统稳定后的时序图、频谱图和相图，识别周期一、周期二、单吸引子和双吸引子等状态。
+        \item 观察多态共存现象：在特定频率下，通过改变初始条件，观察系统进入不同稳定状态的现象。
+    \end{enumerate}
+
+    \section{\zihao{-4}\heiti 结果与讨论}
+    \subsection{\zihao{5}\heiti 不同驱动频率下的运动状态}
+    \zihao{5}\songti
+   
+通过改变驱动频率，观察到了系统多种不同的运动状态：
+    
+    \begin{itemize}
+        \item 周期一状态（$f=0.3750$Hz）：系统稳定后摆轮的运动周期与外驱动力相同，振幅稳定，相图为一条清晰的闭合曲线。
+        \item 周期二状态（$f=0.3200$Hz）：角度时序图出现一大一小两个峰值，频谱图中显示出清晰的二分频成分，摆轮的运动周期变为驱动力的两倍。
+        \item 单吸引子状态（$f=0.3000$Hz）：摆轮进行单涡旋运动，振幅与频率不固定，频谱图中除了驱动频率外，没有清晰的分频信号，系统进入混沌状态。
+        \item 双吸引子状态（$f=0.3000$Hz）：摆轮有时在左侧，有时在右侧，振幅和频率不固定，频谱图中除了驱动频率外，也没有清晰的分频信号，系统处于更复杂的混沌状态。
+    \end{itemize}
+
+    这些观察结果验证了非线性系统通过倍周期分岔通向混沌的典型路径。
+
+    \subsection{\zihao{5}\heiti 相图分析}
+    \zihao{5}\songti
+    相图能清晰反映系统的状态及其演化。在周期状态下，相图呈现为闭合曲线；在混沌状态下，相图呈现出复杂的不规则轨迹，但仍局限在一定的范围内。实验观察到，随着驱动频率的降低，系统从简单的周期运动逐渐经历倍周期分岔，最终进入混沌状态，这一过程在相图中得到了直观的展示。
+    \subsection{\zihao{5}\heiti 误差分析}
+    \zihao{5}\songti
+    本实验的误差主要来源于：
+    \begin{enumerate}
+        \item 系统误差：角度传感器的精度限制；弹簧倔强系数在摆轮偏向左右两侧时可能略有不同。
+        \item 随机误差：实验环境的微小振动；数据采集过程中的噪声。
+        \item 模型误差：实际系统与理论模型的差异；储备池计算算法参数设置对预测结果的影响。
+    \end{enumerate}
+
+    \section{\zihao{-4}\heiti 结\quad 论}
+    \zihao{5}\songti
+    本研究通过构建混沌扭摆实验系统，深入研究了非线性动力学系统中的复杂行为。实验成功观察到了从周期运动经倍周期分岔通向混沌的完整路径，包括周期一、周期二、单吸引子和双吸引子等多种状态。相图分析直观展示了系统状态随驱动频率变化的演化过程。进一步采用储备池计算算法对系统轨道进行预测，验证了该方法在非线性系统建模中的有效性。本实验不仅加深了对混沌现象的理解，也为研究复杂动力学系统提供了可靠的实验方法和分析手段。混沌理论的研究对于揭示自然界中众多复杂现象的内在规律具有重要意义。
+\end{multicols}
+
+\end{document}

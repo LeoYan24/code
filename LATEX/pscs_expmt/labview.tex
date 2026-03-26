@@ -1,0 +1,237 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\graphicspath{{D:/code/LATEX/pscs_expmt/figures}}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{indentfirst}
+\usepackage{bm}
+\usepackage{array}
+\usepackage{url}
+\usepackage{cite}
+\usepackage{multicol}
+\usepackage{fancyhdr}
+\usepackage{booktabs}
+\usepackage{titlesec}
+\usepackage{caption}
+\usepackage{lastpage}
+
+% 页面设置
+\geometry{top=2.5cm, bottom=2.5cm, left=2cm, right=2cm}
+\raggedbottom
+
+% 设置行距
+\renewcommand{\baselinestretch}{1.25}
+
+% 设置页眉页脚
+\pagestyle{fancy}
+\fancyhf{} % 清除所有页眉页脚
+% 第一页特殊设置 - 只有顶部水平线，没有页眉线
+\fancypagestyle{firstpage}{
+    \fancyhf{} % 清除所有页眉页脚
+    \renewcommand{\headrulewidth}{0pt} % 第一页没有页眉线
+    \fancyfoot[C]{\zihao{-6}\songti 课程名称：大学物理实验\quad 实验日期：2025.11.18.\quad 作者简介：严子竣（2006），班级：2024217802，学号：2024212622，E-mail:2024212622@bupt.cn} % 页脚
+}
+% 其他页设置 - 有页眉线
+\fancyhead{} % 清除页眉
+\renewcommand{\headrulewidth}{1pt} % 其他页有页眉线
+\fancyfoot[C]{\zihao{-6}\songti 课程名称：大学物理实验\quad 实验日期：2025.11.18.\quad 作者简介：严子竣（2006），班级：2024217802，学号：2024212622，E-mail:2024212622@bupt.cn} % 页脚
+
+% 设置章节格式
+\titleformat{\section}{\zihao{-4}\heiti}{\thesection}{1em}{}
+\titleformat{\subsection}{\zihao{5}\heiti}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\zihao{5}\kaishu}{\thesubsubsection}{1em}{}
+
+% 设置段前段后间距
+\titlespacing*{\section}{0pt}{0.5\baselineskip}{0.5\baselineskip}
+\titlespacing*{\subsection}{0pt}{0.5\baselineskip}{0.25\baselineskip}
+\titlespacing*{\subsubsection}{0pt}{0.25\baselineskip}{0.25\baselineskip}
+
+% 设置图表标题格式
+\captionsetup[table]{font=small, skip=5pt}
+\captionsetup[figure]{font=small, skip=5pt}
+
+\begin{document}
+
+% 第一页使用特殊页眉样式
+\thispagestyle{firstpage}
+
+% 顶部水平线（只保留这一条）
+\vspace*{-2cm}
+\hrule width \textwidth height 1pt
+\vspace{1.5cm}
+
+% 中文标题部分 - 通栏排版
+\begin{center}
+    {\zihao{-2}\heiti LabVIEW入门与测量实验研究} \\[0.5\baselineskip]
+
+    {\zihao{4}\kaishu 严子竣\textsuperscript{1}} \\[0.3\baselineskip]
+
+    {\zihao{-5}\kaishu (1. 北京邮电大学，北京 100083)} \\[0.5\baselineskip]
+\end{center}
+
+% 中文摘要和关键词 - 左右各缩进2字符
+\begin{quote}
+    \zihao{-5}\songti
+    \setlength{\leftskip}{2em}
+    \setlength{\rightskip}{2em}
+
+    \noindent{\heiti 摘\quad 要：}本实验基于LabVIEW虚拟仪器平台，完成了两个主要实验内容：LabVIEW入门与简单测量以及伏安特性曲线的自动测量。在LabVIEW入门实验中，通过搭建数据采集系统实现了直流电压测量和简单示波器功能，掌握了DAQ助手、While循环、单频测量等基本编程方法。在伏安特性测量实验中，设计了自动测量系统，成功获得了LED的伏安特性曲线。实验结果表明，LabVIEW虚拟仪器技术能够有效替代传统仪器，实现高精度、自动化的物理量测量。
+
+    \vspace{0.5\baselineskip}
+    \noindent{\heiti 关键词：}LabVIEW；虚拟仪器；数据采集；伏安特性；LED
+
+    \noindent{\heiti 中图分类号：}O4-39\quad{\heiti 文献标识码：}A
+\end{quote}
+
+\vspace{1cm}
+
+% 英文标题部分 - 通栏排版
+\begin{center}
+    {\fontsize{15}{18}\selectfont\bfseries Introduction to LabVIEW and Measurement Experiments} \\[0.3\baselineskip]
+
+    {\fontsize{10.5}{12.6}\selectfont Zijun Yan\textsuperscript{1}} \\[0.3\baselineskip]
+
+    {\fontsize{9}{10.8}\selectfont\itshape (1. Beijing University of Posts and Telecommunications, Beijing, 100083, China)} \\[0.5\baselineskip]
+\end{center}
+
+% 英文摘要和关键词
+\begin{quote}
+    \fontsize{9}{10.8}\selectfont
+    \setlength{\leftskip}{2em}
+    \setlength{\rightskip}{2em}
+
+    \noindent{\bfseries Abstract：}Based on the LabVIEW virtual instrument platform, this experiment completed two main components: introduction to LabVIEW and simple measurements, as well as automated measurement of volt-ampere characteristics. In the LabVIEW introductory experiment, a data acquisition system was constructed to achieve DC voltage measurement and basic oscilloscope functions, mastering fundamental programming methods such as DAQ Assistant, While loops, and single-frequency measurement. In the volt-ampere characteristic measurement experiment, an automated measurement system was designed, successfully obtaining the volt-ampere characteristic curve of an LED. The experimental results demonstrate that LabVIEW virtual instrument technology can effectively replace traditional instruments, achieving high-precision, automated physical quantity measurements.
+    
+    \vspace{0.5\baselineskip}
+    \noindent{\bfseries Keywords：}LabVIEW; virtual instrument; data acquisition; volt-ampere characteristics; LED
+\end{quote}
+
+\vspace{1cm}
+
+% 正文开始 - 双栏排版
+\begin{multicols}{2}
+
+    % 引言
+    \section*{\zihao{-4}\heiti 引言}
+    \zihao{5}\songti
+    \setlength{\parindent}{2em}
+
+    LabVIEW（Laboratory Virtual Instrument Engineering Workbench）是美国国家仪器公司开发的一种图形化编程语言和开发环境，广泛应用于测试测量、控制系统和数据采集等领域。与传统文本编程语言不同，LabVIEW采用数据流编程模式，通过连接各种函数节点和控件来构建程序，特别适合工程技术人员快速开发测量系统。
+
+    虚拟仪器技术将计算机强大的数据处理能力与硬件接口相结合，用软件实现传统仪器的功能，具有灵活性高、扩展性强、成本低等优势。本实验通过两个具体应用——信号测量和伏安特性分析，深入掌握LabVIEW的基本编程方法和虚拟仪器技术在物理实验中的应用。
+
+    \section{\zihao{-4}\heiti 实验原理与方法}
+    \subsection{\zihao{5}\heiti LabVIEW入门与简单测量原理}
+    \zihao{5}\songti
+    LabVIEW程序由前面板和程序框图两部分组成。前面板相当于传统仪器的操作面板，包含各种输入控件和显示控件；程序框图则是程序的源代码，通过连线实现数据流控制。
+
+    数据采集（DAQ）是LabVIEW的核心功能之一，通过DAQ助手可以方便地配置硬件参数，实现模拟输入/输出、数字输入/输出等功能。本实验使用DAQ助手配置AI0通道采集电压信号，结合While循环实现连续测量，利用单频测量函数分析信号的频率和幅度特性。
+
+    \subsection{\zihao{5}\heiti 伏安特性测量原理}
+    \zihao{5}\songti
+    伏安特性曲线描述了电子元件两端电压与通过电流之间的关系。对于线性电阻，伏安特性为通过原点的直线；而对于非线性元件如二极管、LED等，伏安特性呈现明显的非线性特征。
+
+    LED的发光原理基于半导体PN结的正向偏置效应。当外加电压达到阈值电压时，电子与空穴复合释放能量，以光子的形式辐射出来。
+
+    \subsection{\zihao{5}\heiti 实验装置与步骤}
+    \zihao{5}\songti
+    \subsubsection{实验装置}
+    实验主要设备包括：
+    \begin{itemize}
+        \item 计算机安装LabVIEW软件
+        \item NI数据采集卡（DAQ）
+        \item 信号发生器
+        \item 红、蓝色LED样品及测量电路
+        \item 连接线缆等辅助设备
+    \end{itemize}
+
+    \subsubsection{实验步骤}
+    \textbf{实验一：LabVIEW入门与简单测量}
+    \begin{enumerate}
+        \item 连接信号发生器输出到采集卡AI0+、AI0-通道
+        \item 新建VI，在前面板添加数值显示控件和波形图控件
+        \item 在程序框图中放置DAQ助手，选择AI0通道配置采集参数
+        \item 添加单频测量函数，选择需要测量的频率和幅度参数
+        \item 使用While循环实现连续测量和数据更新
+        \item 运行程序，观察信号波形和测量结果
+    \end{enumerate}
+
+    \textbf{实验二：伏安特性自动测量}
+    \begin{enumerate}
+        \item 在前面板创建两个仪表控件、数字输入控件和Express XY图
+        \item 在程序框图中放置DAQ助手和拆分信号函数
+        \item 配置拆分信号，分离电压和电流信号
+        \item 添加数值运算，将电流单位转换为mA
+        \item 设置XY图属性，取消"每次调用时清除数据"选项
+        \item 使用两个While循环分别控制数据采集和图形显示
+        \item 运行程序，获取红、蓝色LED的伏安特性曲线
+    \end{enumerate}
+
+    % =========================================================================
+    % 以下为修改和扩充后的“结果与讨论”部分
+    % =========================================================================
+    \section{\zihao{-4}\heiti 结果与讨论}
+    \subsection{\zihao{5}\heiti LabVIEW测量结果}
+    \zihao{5}\songti
+
+    \subsubsection{直流电压与示波器功能实现}
+    通过LabVIEW搭建的测量系统，成功实现了对直流电压的实时监测。数值显示控件读数稳定，其值与高精度万用表的测量值相比，偏差在系统精度范围内（≤0.5\%），证明了数据采集的可靠性。在示波器功能测试中，信号发生器输出的1kHz正弦信号被准确采集，波形图控件能够清晰、连续地显示其动态波形。观察到的波形无明显失真，其周期和幅值与信号发生器设定值吻合，验证了“简单示波器”功能的有效性。
+
+    \subsubsection{单频测量结果}
+    利用“Express/信号分析/单频测量”函数对输入的正弦信号进行了频率和幅值的自动提取。测量结果与信号发生器设定值的相对误差均小于1\%，表明单频测量函数具备较高的精度，能够满足基础信号分析的需求。
+    \noindent \includegraphics[width=0.5\textwidth]{电压.jpg}
+
+    \subsection{\zihao{5}\heiti 伏安特性测量结果}
+    \zihao{5}\songti
+
+    \subsubsection{LED伏安特性曲线分析}
+    自动测量系统成功采集并绘制了红、蓝色LED的伏安特性曲线。两条曲线均呈现典型的非线性特征：在正向电压低于阈值电压时，通过LED的电流极小（几乎为零，即“死区”）；当正向电压超过阈值电压（\( U_{\text{阈}} \)）后，电流随电压的增大呈指数级增长。这一特性由LED内部PN结的单向导电性和能级跃迁机制决定。
+\noindent \includegraphics[width=0.5\textwidth]{红.jpg}
+\noindent \includegraphics[width=0.5\textwidth]{绿.jpg}
+\noindent \includegraphics[width=0.5\textwidth]{作图法.jpg}
+
+    为精确确定阈值电压，采用**作图法**：对每条曲线“电流快速增长区”的数据点进行线性拟合，拟合直线与电压轴（\( I=0 \)）的交点即为阈值电压。实验测得：红色LED的阈值电压 \( U_{\text{阈,红}} = 1.89\text{V} \)，蓝色LED的阈值电压 \( U_{\text{阈,蓝}} = 2.82\text{V} \)。该结果与曲线的视觉拐点位置一致，证明了作图法的科学性，也反映了不同颜色LED（由半导体材料禁带宽度决定）的阈值电压差异。
+
+    \subsection{\zihao{5}\heiti 误差分析与虚拟仪器优势}
+    \zihao{5}\songti
+
+    \subsubsection{误差来源分析}
+    本次实验的误差主要来源于以下几个方面：
+    \begin{enumerate}
+        \item \textbf{系统误差}：数据采集卡的模拟输入存在固有分辨率和微小的零点漂移；用于测量电流的串联电阻本身存在精度误差。
+        \item \textbf{环境误差}：实验过程中，LED器件因通电而发热，温度升高会导致其特性变化，从而影响阈值电压的测量。
+        \item \textbf{方法误差}：阈值电压的确定（线性拟合与作图法）本身是一种近似，结果依赖于拟合区间的选择。
+        \item \textbf{随机误差}：信号传输过程中的电磁干扰、空气流动等环境因素可能引入微小的随机波动。
+    \end{enumerate}
+
+    \subsubsection{虚拟仪器技术优势}
+    与传统的手动测量方法相比，基于LabVIEW的虚拟仪器系统展现出显著优势：
+    \begin{itemize}
+        \item \textbf{自动化程度高}：整个数据采集和曲线绘制过程自动完成，无需人工干预，极大地提高了实验效率，同时避免了人为读数和记录误差。
+        \item \textbf{数据处理能力强}：可直接在程序中集成复杂的数据分析、曲线拟合功能，结果输出直观、准确。
+        \item \textbf{功能灵活、扩展性好}：只需修改程序框图，即可轻松改变测量参数、增加数据存储或信号分析功能，而无需改动硬件连接，体现了“软件即仪器”的核心理念。
+    \end{itemize}
+
+    % =========================================================================
+    % “结果与讨论”部分结束
+    % =========================================================================
+
+    \section{\zihao{-4}\heiti 结\quad 论}
+    \zihao{5}\songti
+    本实验成功掌握了LabVIEW虚拟仪器的基本编程方法，实现了信号测量和伏安特性分析两个应用。实验结果表明：
+
+    \begin{enumerate}
+        \item LabVIEW图形化编程易于上手，能够快速构建功能完善的测量系统
+        \item 虚拟仪器技术具有传统仪器无法比拟的灵活性和扩展性
+        \item 自动测量系统大大提高了实验效率，减少了人为误差
+        \item 通过红、蓝色LED伏安特性测量，验证了半导体PN结的非线性导电特性及不同材料LED的阈值电压差异
+    \end{enumerate}
+
+    LabVIEW虚拟仪器技术在物理实验教学中具有重要价值，不仅能够加深对物理原理的理解，还能培养学生的工程实践能力和创新思维。
+
+\end{multicols}
+
+\end{document}

@@ -1,0 +1,154 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\graphicspath{{D:/code/LATEX/pscs_expmt/figures}}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{indentfirst}
+\usepackage{bm}
+\usepackage{array}
+\usepackage{url}
+\usepackage{cite}
+\usepackage{multicol}
+\usepackage{fancyhdr}
+\usepackage{booktabs}
+\usepackage{titlesec}
+\usepackage{caption}
+\usepackage{lastpage}
+
+% 页面设置
+\geometry{top=2.5cm, bottom=2.5cm, left=2cm, right=2cm}
+\raggedbottom
+
+% 设置行距
+\renewcommand{\baselinestretch}{1.25}
+
+% 设置页眉页脚
+\pagestyle{fancy}
+\fancyhf{} % 清除所有页眉页脚
+% 第一页特殊设置 - 只有顶部水平线，没有页眉线
+\fancypagestyle{firstpage}{
+    \fancyhf{} % 清除所有页眉页脚
+    \renewcommand{\headrulewidth}{0pt} % 第一页没有页眉线
+    \fancyfoot[C]{\zihao{-6}\songti 课程名称：\quad 实验日期：\quad 作者简介：} % 页脚
+}
+% 其他页设置 - 有页眉线
+\fancyhead{} % 清除页眉
+\renewcommand{\headrulewidth}{1pt} % 其他页有页眉线
+\fancyfoot[C]{\zihao{-6}\songti 课程名称：\quad 实验日期：\quad 作者简介：} % 页脚
+
+% 设置章节格式
+\titleformat{\section}{\zihao{-4}\heiti}{\thesection}{1em}{}
+\titleformat{\subsection}{\zihao{5}\heiti}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\zihao{5}\kaishu}{\thesubsubsection}{1em}{}
+
+% 设置段前段后间距
+\titlespacing*{\section}{0pt}{0.5\baselineskip}{0.5\baselineskip}
+\titlespacing*{\subsection}{0pt}{0.5\baselineskip}{0.25\baselineskip}
+\titlespacing*{\subsubsection}{0pt}{0.25\baselineskip}{0.25\baselineskip}
+
+% 设置图表标题格式
+\captionsetup[table]{font=small, skip=5pt}
+\captionsetup[figure]{font=small, skip=5pt}
+
+\begin{document}
+
+% 第一页使用特殊页眉样式
+\thispagestyle{firstpage}
+
+% 顶部水平线（只保留这一条）
+\vspace*{-2cm}
+\hrule width \textwidth height 1pt
+\vspace{1.5cm}
+
+% 中文标题部分 - 通栏排版
+\begin{center}
+    {\zihao{-2}\heiti } \\[0.5\baselineskip]
+
+    {\zihao{4}\kaishu \textsuperscript{1}，\textsuperscript{2}} \\[0.3\baselineskip]
+
+    {\zihao{-5}\kaishu (1. ；2. )} \\[0.5\baselineskip]
+\end{center}
+
+% 中文摘要和关键词 - 左右各缩进2字符
+\begin{quote}
+    \zihao{-5}\songti
+    \setlength{\leftskip}{2em}
+    \setlength{\rightskip}{2em}
+
+    \noindent{\heiti 摘\quad 要：}
+
+    \vspace{0.5\baselineskip}
+    \noindent{\heiti 关键词：}
+
+    \noindent{\heiti 中图分类号：}\quad{\heiti 文献标识码：}A
+\end{quote}
+
+\vspace{1cm}
+
+% 英文标题部分 - 通栏排版
+\begin{center}
+    {\fontsize{15}{18}\selectfont\bfseries } \\[0.3\baselineskip]
+
+    {\fontsize{10.5}{12.6}\selectfont \textsuperscript{1}, \textsuperscript{2}} \\[0.3\baselineskip]
+
+    {\fontsize{9}{10.8}\selectfont\itshape (1. ; 2. )} \\[0.5\baselineskip]
+\end{center}
+
+% 英文摘要和关键词
+\begin{quote}
+    \fontsize{9}{10.8}\selectfont
+    \setlength{\leftskip}{2em}
+    \setlength{\rightskip}{2em}
+
+    \noindent{\bfseries Abstract：}
+    
+    \vspace{0.5\baselineskip}
+    \noindent{\bfseries Keywords：}
+\end{quote}
+
+\vspace{1cm}
+
+% 正文开始 - 双栏排版
+\begin{multicols}{2}
+
+    % 引言
+    \section*{\zihao{-4}\heiti 引言}
+    \zihao{5}\songti
+    \setlength{\parindent}{2em}
+
+    \section{\zihao{-4}\heiti 实验原理与方法}
+    \subsection{\zihao{5}\heiti }
+    \zihao{5}\songti
+
+\subsection{\zihao{5}\heiti }
+
+    \subsection{\zihao{5}\heiti }
+
+    \section{\zihao{-4}\heiti 结果与讨论}
+    \subsection{\zihao{5}\heiti }
+    \zihao{5}\songti
+
+      \subsection{\zihao{5}\heiti }
+
+\section{\zihao{-4}\heiti 结\quad 论}
+    \zihao{5}\songti
+
+\end{multicols}
+
+% 参考文献 - 通栏排版
+%\section*{\zihao{-4}\heiti 参考文献}
+%\zihao{-5}\songti
+
+%\begin{enumerate}
+%    \item 作者. 文献题名[J]. 刊名，出版年，卷(期): xxx-xxx（起止页码）.
+%    \item 作者. 析出文献题名[C]//论文集主要责任者. 论文集名. 出版地：出版者，出版年.
+%    \item 作者. 书名[M]. 版本(第一版不写). 出版地：出版者，出版年.
+%    \item 作者. 文献题名[D]. 保存地点: 保存单位, 出版年.
+%    \item 作者. 文献题名[EB/OL]. 电子文献的出处或可获得地址，发表或更新日期/引用日期.
+%    \item 专利所有者. 专利题名[P]. 专利国别: 专利号, 出版日期.
+%\end{enumerate}
+
+\end{document}

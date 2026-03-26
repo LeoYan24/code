@@ -1,0 +1,571 @@
+
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[UTF8]{ctex}
+
+\usepackage{amsmath}
+
+\usepackage{amssymb}
+
+\usepackage{graphicx}
+
+\graphicspath{{D:/code/LATEX/pscs_expmt/figures}}
+
+\usepackage{geometry}
+
+\usepackage{setspace}
+
+\usepackage{indentfirst}
+
+\usepackage{bm}
+
+\usepackage{array}
+
+\usepackage{url}
+
+\usepackage{cite}
+
+\usepackage{multicol}
+
+\usepackage{fancyhdr}
+
+\usepackage{booktabs}
+
+\usepackage{titlesec}
+
+\usepackage{caption}
+
+\usepackage{lastpage}
+
+
+
+% 页面设置
+
+\geometry{top=2.5cm, bottom=2.5cm, left=2cm, right=2cm}
+
+\raggedbottom
+
+
+
+% 设置行距
+
+\renewcommand{\baselinestretch}{1.25}
+
+
+
+% 设置页眉页脚
+\pagestyle{fancy}
+\fancyhf{} % 清除所有页眉页脚
+% 第一页特殊设置 - 只有顶部水平线，没有页眉线
+\fancypagestyle{firstpage}{
+    \fancyhf{} % 清除所有页眉页脚
+    \renewcommand{\headrulewidth}{0pt} % 第一页没有页眉线
+    \fancyfoot[C]{\zihao{-6}\songti 课程名称：大学物理实验\quad 实验日期：2025-12-2.\quad 作者简介：严子竣(2006)，男，班级：2024217802，学号：2024212622，电话：18010010176，E-mail：2024212622@bupt.cn} % 页脚
+}
+% 其他页设置 - 有页眉线
+\fancyhead{} % 清除页眉
+\renewcommand{\headrulewidth}{1pt} % 其他页有页眉线
+\fancyfoot[C]{\zihao{-6}\songti 课程名称：大学物理实验\quad 实验日期：2025-10-28.\quad 作者简介：严子竣(2006)，男，班级：2024217802，学号：2024212622，电话：18010010176，E-mail:2024212622@bupt.cn} % 页脚
+
+
+% 其他页设置 - 有页眉线
+
+\fancyhead{} % 清除页眉
+
+\renewcommand{\headrulewidth}{1pt} % 其他页有页眉线
+
+\fancyfoot[C]{\zihao{-6}\songti 课程名称：大学物理实验\quad 实验日期：2025-12-2\quad 作者简介：严子竣，班级：2024217802，学号：2024212622} % 页脚
+
+
+
+% 设置章节格式
+
+\titleformat{\section}{\zihao{-4}\heiti}{\thesection}{1em}{}
+
+\titleformat{\subsection}{\zihao{5}\heiti}{\thesubsection}{1em}{}
+
+\titleformat{\subsubsection}{\zihao{5}\kaishu}{\thesubsubsection}{1em}{}
+
+
+
+% 设置段前段后间距
+
+\titlespacing*{\section}{0pt}{0.5\baselineskip}{0.5\baselineskip}
+
+\titlespacing*{\subsection}{0pt}{0.5\baselineskip}{0.25\baselineskip}
+
+\titlespacing*{\subsubsection}{0pt}{0.25\baselineskip}{0.25\baselineskip}
+
+
+
+% 设置图表标题格式
+
+\captionsetup[table]{font=small, skip=5pt}
+
+\captionsetup[figure]{font=small, skip=5pt}
+
+
+
+\begin{document}
+
+
+
+% 第一页使用特殊页眉样式
+
+\thispagestyle{firstpage}
+
+
+
+% 顶部水平线（只保留这一条）
+
+\vspace*{-2cm}
+
+\hrule width \textwidth height 1pt
+
+\vspace{1.5cm}
+
+
+
+% 中文标题部分 - 通栏排版
+\begin{center}
+    {\zihao{-2}\heiti 分光计的调整与三棱镜、衍射光栅、毛细管光学及激光雕刻
+实验} \\[0.5\baselineskip]
+
+    {\zihao{4}\kaishu 严子竣\textsuperscript{1}} \\[0.3\baselineskip]
+
+    {\zihao{-5}\kaishu (1. 北京邮电大学，100083)} \\[0.5\baselineskip]
+\end{center}
+
+
+
+% 中文摘要和关键词 - 左右各缩进2字符
+
+\begin{quote}
+
+    \zihao{-5}\songti
+
+    \setlength{\leftskip}{2em}
+
+    \setlength{\rightskip}{2em}
+
+
+
+    \noindent{\heiti 摘\quad 要：} 本实验通过调整分光计等方式，完成四项光学实验：一是测量三棱镜对蓝（紫）光、绿光的最小偏向角；二是利用衍射光栅测量其对多色光的衍射角，计算光栅常数等参数；三是观察毛细管散射光的强度分布现象，理解其与液体折射率的关联；四是利用激光雕刻设备在牛皮纸上完成图案雕刻，掌握激光的能量应用特性。实验结合最小偏向角原理、光栅方程及激光热效应理论分析数据与现象。结果表明，分光计精准调整是光学测量核心，激光雕刻可通过参数调控实现清晰的图案复刻。
+
+
+
+    \vspace{0.5\baselineskip}
+
+    \noindent{\heiti 关键词：} 分光计；三棱镜；最小偏向角；衍射光栅；毛细管光学；激光雕刻
+
+
+
+    \noindent{\heiti 中图分类号：}\quad{\heiti 文献标识码：}A
+
+\end{quote}
+
+
+
+\vspace{1cm}
+
+
+
+% 英文标题部分 - 通栏排版
+
+\begin{center}
+
+    {\fontsize{15}{18}\selectfont\bfseries Adjustment of Spectrometer and Experiments on Prism, Diffraction Grating, Capillary Optics and Laser Engraving} \\[0.3\baselineskip]
+
+
+
+    {\fontsize{10.5}{12.6}\selectfont Zijun Yan\textsuperscript{1}} \\[0.3\baselineskip]
+
+
+
+    {\fontsize{9}{10.8}\selectfont\itshape (1. Beijing University of Posts and Telecommunications,100083)} \\[0.5\baselineskip]
+\end{center}
+
+
+
+% 英文摘要和关键词
+
+\begin{quote}
+
+    \fontsize{9}{10.8}\selectfont
+
+    \setlength{\leftskip}{2em}
+
+    \setlength{\rightskip}{2em}
+
+
+
+    \noindent{\bfseries Abstract：} In this experiment, the spectrometer was adjusted to meet measurement requirements, and four optical experiments were completed: (1) Measuring the minimum deviation angles of the prism for blue (violet) light and green light; (2) Measuring the diffraction angles of polychromatic light using a diffraction grating and calculating parameters such as grating constant; (3) Observing the intensity distribution of light scattered by a capillary and understanding its correlation with the refractive index of the liquid; (4) Completing pattern engraving on kraft paper using laser engraving equipment to master the energy application characteristics of lasers. The experiment analyzed data and phenomena combined with the minimum deviation angle principle, grating equation and laser thermal effect theory. The results show that the precise adjustment of the spectrometer is the core of optical measurement, and laser engraving can achieve clear pattern reproduction through parameter control.
+
+
+
+    \vspace{0.5\baselineskip}
+
+    \noindent{\bfseries Keywords：} Spectrometer; Triangular prism; Minimum deviation angle; Diffraction grating; Capillary optics; Laser engraving
+
+\end{quote}
+
+
+
+\vspace{1cm}
+
+
+
+% 正文开始 - 双栏排版
+
+\begin{multicols}{2}
+
+
+
+    % 引言
+
+    \section*{\zihao{-4}\heiti 引言}
+
+    \zihao{5}\songti
+
+    \setlength{\parindent}{2em}
+
+    光学实验涵盖光的传播规律与能量应用两大核心方向。本实验以分光计为基础，开展光的折射、衍射相关测量实验，同时通过毛细管光学观察光的散射特性，最终以激光雕刻实验呈现光的能量应用价值，形成“基础测量-现象观察-应用实践”的完整实验链条。其中激光雕刻实验作为光学技术的实际应用案例，通过简单操作流程展示激光的热效应与精准控制特性。
+
+
+
+    \section{\zihao{-4}\heiti 实验原理与方法}
+
+    \subsection{\zihao{5}\heiti 分光计的调整原理与方法}
+
+    \zihao{5}\songti
+
+    分光计的核心调整要求为：1.望远镜聚焦于无穷远（可接收平行光）；2.平行光管发出平行光；3.望远镜与平行光管光轴共轴且垂直于分光计中心轴。
+
+
+
+    调整分为粗调与细调：
+
+    - 粗调：目视使望远镜、平行光管大致共轴，载物台平面近似垂直中心轴；
+
+    - 细调：
+
+      1. 望远镜聚焦无穷远：调目镜使叉丝清晰，通过光学平行平板自准直法，让反射亮十字像与叉丝交点重合；
+
+      2. 望远镜光轴垂直中心轴：用渐近法反复调整载物台螺钉与望远镜倾角螺钉，使平板两光学面的反射像均与叉丝交点重合；
+
+      3. 平行光管出平行光：以聚焦无穷远的望远镜为标准，调狭缝位置使狭缝像清晰；
+
+      4. 平行光管光轴垂直中心轴：调平行光管倾角螺钉，使狭缝像与分划板水平刻线重合。
+
+
+
+
+
+    \subsection{\zihao{5}\heiti 三棱镜最小偏向角的测量原理}
+
+    光线经三棱镜折射时，入射光与出射光延长线的夹角为偏向角。当入射、出射光光路对称时，偏向角达最小值（最小偏向角$\delta_{\text{min}}$）。
+
+
+
+    测量时，找到谱线反向移动的转折点（最小偏向角位置），读取角度$\theta_{\text{左}1}、\theta_{\text{右}1}$；将棱镜转至对称位置，读取$\theta_{\text{左}2}、\theta_{\text{右}2}$，则：
+
+    \[
+        \delta_{\text{min}} = \frac{1}{4}\left(|\theta_{\text{左}2} - \theta_{\text{左}1}| + |\theta_{\text{右}2} - \theta_{\text{右}1}|\right)
+        \]
+    
+
+
+
+    \subsection{\zihao{5}\heiti 衍射光栅的测量原理}
+
+    平面透射光栅由大量等宽、等距的平行狭缝构成，相邻狭缝间距（光栅常数）为$d$。平行光垂直入射时，光栅方程为：
+
+    \[
+        d\sin\varphi_k = k\lambda
+        \]
+        其中$k$为衍射级数（$k=0,\pm1,\pm2,\dots$），$\varphi_k$为第$k$级谱线的衍射角，$\lambda$为入射光波长。
+
+
+
+    利用光栅方程：已知$\lambda$可求$d$，已知$d$可求未知$\lambda$。角色散是光栅的分光能力参数，定义为单位波长间隔的角间距$D = \frac{d\varphi_k}{d\lambda}$，对光栅方程微分得$D = \frac{k}{d\cos\varphi_k}$。
+
+
+
+
+
+    \subsection{\zihao{5}\heiti 毛细管光学的实验原理}
+
+    \zihao{5}\songti
+
+    毛细管光学实验基于光的散射与折射规律，利用直径约1.0mm的玻璃毛细管作为核心元件，其内壁与外壁构成双层圆柱结构（内半径$r$、外半径$R$）。当He-Ne激光（波长632.8nm）以平行光形式入射毛细管时，光线在管壁与管内液体界面发生反射、折射，形成复杂的散射光场。
+
+
+
+    核心原理为：玻璃管壁折射率$n_0$通常大于管内液体折射率$n$，光线经界面作用后会形成三类特征光线，其强度分布在观察屏上呈现明显的“台阶式”突变，对应三个对称的强度台阶点（A、B、C）。这些点的散射角度与毛细管参数（$r/R$、$n_0$）及液体折射率$n$直接相关，其中A点对应反射光的最小偏向角，B点对应绕射光的强度突变，C点对应透射光的最大偏向角。
+
+
+
+    \subsection{\zihao{5}\heiti 激光雕刻的实验原理}
+
+    \zihao{5}\songti
+
+    激光雕刻基于激光的热效应原理，利用高能量密度的聚焦激光束作用于材料表面。当激光能量被牛皮纸等材料吸收后，会在极短时间内将局部温度提升至材料的碳化温度，使材料表面发生碳化、汽化等物理化学变化，通过控制激光束的运动轨迹，即可在材料表面形成预设的图案或文字。
+
+    实验所用桌面级激光雕刻设备通过计算机程序精准控制激光头的X-Y轴运动，激光功率与雕刻速度可根据材料特性调整——功率过高易导致材料烧穿，速度过快则图案模糊，针对牛皮纸的特性需匹配适宜的参数组合以保证雕刻效果。
+
+
+
+    \section{\zihao{-4}\heiti 实验内容与步骤}
+
+    \subsection{\zihao{5}\heiti 实验一：三棱镜最小偏向角的测量}
+
+    \zihao{5}\songti
+
+    本实验的核心是通过分光计实现最小偏向角的精准定位与读数，关键在于分光计的细致调整与谱线转折点的准确判断，具体步骤分三阶段进行：
+
+
+
+    \subsubsection{\zihao{5}\kaishu 分光计的调整}
+
+    1. 仪器粗调：将分光计置于水平实验台，目视调节望远镜、平行光管的倾角螺钉，使二者光轴大致水平共线；调节载物台下方三个调平螺钉，将载物台升至中间高度，使台面近似水平。
+
+    2. 望远镜聚焦无穷远：
+
+       - 转动目镜调焦轮，使分划板上的十字叉丝清晰可见，无重影；
+
+       - 将光学平行平板紧贴望远镜物镜，开启望远镜照明光源，缓慢转动载物台，使平板反射回的亮十字像进入望远镜视野；
+
+       - 调节望远镜物镜调焦旋钮，使亮十字像清晰且与叉丝无相对移动，此时望远镜已聚焦无穷远。
+
+    3. 望远镜光轴垂直分光计中心轴：
+
+       - 记录亮十字像与叉丝上交点的垂直距离，调节载物台调平螺钉使距离减小1/2；
+
+       - 调节望远镜倾角螺钉消除剩余1/2距离，使亮十字像与叉丝上交点重合；
+
+       - 将载物台转动180°，使平行平板另一光学面正对望远镜，重复上述“各调一半”操作，直至两面反射的亮十字像均与叉丝上交点重合，此步骤需反复2-3次确保精度。
+
+    4. 平行光管调整：
+
+       - 移走平行平板，开启汞灯电源照亮平行光管狭缝，将望远镜对准平行光管；
+
+       - 调节平行光管狭缝宽度旋钮，使狭缝宽度约为1mm（以通过望远镜观察清晰且不刺眼为宜）；
+
+       - 调节平行光管物镜调焦旋钮，使望远镜中观察到的狭缝像清晰锐利，与叉丝同焦面；
+
+       - 转动狭缝调节手轮，使狭缝方向竖直，调节平行光管倾角螺钉，使狭缝像的中点与叉丝竖直线重合，确保平行光管光轴与望远镜光轴共轴且垂直中心轴。
+
+
+
+    \subsubsection{\zihao{5}\kaishu 三棱镜的放置与校准}
+
+    1. 将三棱镜置于载物台中心，使棱镜的折射面AB与AC分别正对载物台下方两个调平螺钉（记为螺钉1、螺钉2），第三个面BC正对螺钉3，确保棱镜稳定放置。
+
+    2. 转动载物台，使棱镜折射面AB正对望远镜，通过望远镜观察反射的亮十字像，微调载物台螺钉1（或2）使像与叉丝上交点重合（不可动望远镜倾角螺钉）；转动载物台使折射面AC正对望远镜，微调螺钉2（或1）重复操作，完成棱镜光学面与中心轴的垂直校准。
+
+
+
+    \subsubsection{\zihao{5}\kaishu 最小偏向角的测量与读数}
+
+    1. 寻找谱线：转动载物台与望远镜，使平行光管发出的平行光经棱镜折射后进入望远镜，在视野中找到清晰的汞灯光谱（优先识别蓝紫光与绿光）。
+
+    2. 定位最小偏向角：
+
+       - 缓慢转动载物台（带动棱镜转动），同时通过望远镜跟踪观察谱线，此时谱线会向某一方向移动；当载物台转动方向不变而谱线开始反向移动时，该位置即为最小偏向角位置，立即停止转动载物台。
+
+    3. 角度读数：
+
+       - 转动望远镜微调旋钮，使叉丝竖直线精准对准谱线中心，记录分光计度盘左、右两侧游标读数（$\theta_{\text{左}1}$、$\theta_{\text{右}1}$），读数时估读至1′；
+
+       - 保持棱镜位置不变，将望远镜转至棱镜另一侧，重复上述步骤找到同一谱线的对称最小偏向角位置，记录第二组游标读数（$\theta_{\text{左}2}$、$\theta_{\text{右}2}$）；
+
+       - 对蓝紫光、绿光分别重复测量3次，每组数据间隔转动载物台重新定位，避免系统误差。
+
+
+
+    \subsection{\zihao{5}\heiti 实验二：衍射光栅的测量}
+
+    \zihao{5}\songti
+
+    本实验基于已调整完毕的分光计，核心是实现光栅的精准定位与衍射角的对称测量，利用光栅方程计算关键参数，步骤如下：
+
+
+
+    \subsubsection{\zihao{5}\kaishu 衍射光栅的放置与调节}
+
+    1. 取下三棱镜，将平面透射光栅（已知刻痕密度或未知）用光栅支架固定在载物台中心，使光栅平面与载物台调平螺钉1、2的连线垂直，确保光栅面正对平行光管。
+
+    2. 光栅平面垂直平行光管光轴校准：转动望远镜至与平行光管共线位置（0°位置），通过望远镜观察光栅反射的亮十字像，微调载物台螺钉1或2，使像与叉丝上交点重合，此时光栅平面与平行光管光轴垂直。
+
+    3. 光栅刻痕与中心轴平行调节：转动望远镜观察0级衍射谱线（中央亮纹），调节载物台螺钉3（不可动螺钉1、2），使0级谱线与叉丝竖直线重合，确保刻痕方向与分光计中心轴平行，避免谱线倾斜。
+
+
+
+    \subsubsection{\zihao{5}\kaishu 衍射角的测量}
+
+    1. 测量正级次衍射角：将望远镜向一侧转动，依次找到$k=+1$级的蓝紫光、绿光、黄光谱线，微调望远镜使叉丝竖直线对准各谱线中心，记录对应左、右游标读数（$\theta_{\text{左}+1}$、$\theta_{\text{右}+1}$）；继续转动望远镜找到$k=+2$级谱线（若清晰可辨），重复读数。
+
+    2. 测量负级次衍射角：将望远镜转至另一侧，对称找到$k=-1$（及$k=-2$）级的对应谱线，以相同方法记录游标读数（$\theta_{\text{左}-1}$、$\theta_{\text{右}-1}$），确保正、负级次谱线关于0级亮纹对称。
+
+    3. 数据处理准备：同一级次、同一颜色谱线的衍射角$\varphi_k$，由正、负级次的角度差计算，即$2\varphi_k = |\theta_{+k} - \theta_{-k}|$，其中$\theta_{+k}$、$\theta_{-k}$为正、负级次的平均角度值。
+
+
+
+    \subsection{\zihao{5}\heiti 毛细管光学与激光雕刻}
+
+    \zihao{5}\songti
+
+    1. 毛细管光学演示：在暗室环境下，将填充水、酒精的毛细管固定于分光计载物台，He-Ne激光束垂直入射毛细管，在带刻度观察屏上观察散射光的三对对称强度台阶点，记录C点角度随液体折射率的变化趋势。
+
+    2. 激光雕刻实验：在雕刻软件中导入预设图案，将牛皮纸固定于雕刻平台，设置激光功率100\%、速度90\%，确认安全防护后启动设备，完成雕刻后观察图案效果。
+
+
+
+    \section{\zihao{-4}\heiti 结果与讨论}
+
+    \subsection{\zihao{5}\heiti 三棱镜最小偏向角}
+
+    \zihao{5}\songti
+
+最小偏向角测量数据如表1所示，依据公式计算得各谱线的$\delta_{\text{min}}$。
+
+    \begin{table*}[htbp]
+    \centering
+    \caption{三棱镜最小偏向角测量数据}
+    \zihao{5}\songti
+    \begin{tabular}{c|cc|cc}
+    \toprule
+    谱线 & \multicolumn{2}{c|}{位置1} & \multicolumn{2}{c}{位置2} \\
+    \cline{2-5}
+    & $\theta_{\text{左}1}$ & $\theta_{\text{右}1}$ & $\theta_{\text{左}2}$ & $\theta_{\text{右}2}$ \\
+    \midrule
+    蓝（紫）光 & $190^\circ11'$ & $10^\circ10'$ & $303^\circ41'$ & $123^\circ43'$ \\
+    绿光 & $198^\circ25'$ & $18^\circ17'$ & $301^\circ37'$ & $121^\circ36'$ \\
+    \bottomrule
+    \end{tabular}
+    \label{tab:prism_data}
+    \end{table*}
+
+    \subsubsection{蓝（紫）光最小偏向角计算}
+    \[
+    \begin{aligned}
+    |\theta_{\text{左}2} - \theta_{\text{左}1}| &= |303^\circ41' - 190^\circ11'| = 113^\circ30' \\
+    |\theta_{\text{右}2} - \theta_{\text{右}1}| &= |123^\circ43' - 10^\circ10'| = 113^\circ33' \\
+    \delta_{\text{min}} &= \frac{1}{4}\left(113^\circ30' + 113^\circ33'\right) \approx 56^\circ46'
+    \end{aligned}
+    \]
+
+    \subsubsection{绿光最小偏向角计算}
+    \[
+    \begin{aligned}
+    |\theta_{\text{左}2} - \theta_{\text{左}1}| &= |301^\circ37' - 198^\circ25'| = 103^\circ12' \\
+    |\theta_{\text{右}2} - \theta_{\text{右}1}| &= |121^\circ36' - 18^\circ17'| = 103^\circ19' \\
+    \delta_{\text{min}} &= \frac{1}{4}\left(103^\circ12' + 103^\circ19'\right) \approx 51^\circ38'
+    \end{aligned}
+    \]
+
+\subsection{\zihao{5}\heiti 衍射光栅的测量结果}
+    \zihao{5}\songti
+    衍射角测量原始数据如表2所示，通过正、负级次的角度差计算衍射角$\varphi$，再进行后续参数计算。
+
+    \begin{table*}[htbp]
+    \centering
+    \caption{衍射光栅1级谱线衍射角测量数据}
+    \zihao{5}\songti
+    \begin{tabular}{c|c|c|cc|cc}
+    \toprule
+    序号 & 颜色 & 级次 & \multicolumn{2}{c|}{正级次读数} & \multicolumn{2}{c}{负级次读数} \\
+    \cline{4-7}
+    & & & 度盘左侧$\theta_{\text{左}1}$ & 度盘右侧$\theta_{\text{右}1}$ & 度盘左侧$\theta_{\text{左}2}$ & 度盘右侧$\theta_{\text{右}2}$ \\
+    \midrule
+    1 & 蓝紫 & 1 & $242^\circ45'$ & $62^\circ42'$ & $257^\circ45'$ & $77^\circ43'$ \\
+    2 & 绿 & 1 & $240^\circ50'$ & $60^\circ48'$ & $259^\circ39'$ & $79^\circ36'$ \\
+    3 & 黄1 & 1 & $240^\circ14'$ & $60^\circ12'$ & $260^\circ12'$ & $80^\circ12'$ \\
+    4 & 黄2 & 1 & $240^\circ13'$ & $60^\circ11'$ & $260^\circ13'$ & $80^\circ13'$ \\
+    \bottomrule
+    \end{tabular}
+    \label{tab:grating_data}
+    \end{table*}
+
+    \subsubsection{衍射角$\boxed{\varphi}$的计算}
+    衍射角$\varphi$由正、负级次的角度差求得（$2\varphi = |\theta_{\text{负}} - \theta_{\text{正}}|$）：
+
+    \paragraph{蓝紫（1级）}
+    \[
+    \begin{aligned}
+    |\theta_{\text{左}2} - \theta_{\text{左}1}| &= 15^\circ \implies \varphi_{\text{左}} = 7^\circ30' \\
+    |\theta_{\text{右}2} - \theta_{\text{右}1}| &= 15^\circ1' \implies \varphi_{\text{右}} = 7^\circ30.5' \\
+    \overline{\varphi} &\approx 7.504^\circ
+    \end{aligned}
+    \]
+
+    \paragraph{绿（1级）}
+    \[
+    \begin{aligned}
+    |\theta_{\text{左}2} - \theta_{\text{左}1}| &= 18^\circ49' \implies \varphi_{\text{左}} = 9^\circ24.5' \\
+    |\theta_{\text{右}2} - \theta_{\text{右}1}| &= 18^\circ48' \implies \varphi_{\text{右}} = 9^\circ24' \\
+    \overline{\varphi} &\approx 9.404^\circ
+    \end{aligned}
+    \]
+
+    \paragraph{黄1（1级）}
+    \[
+    \begin{aligned}
+    |\theta_{\text{左}2} - \theta_{\text{左}1}| &= 19^\circ58' \implies \varphi_{\text{左}} = 9^\circ59' \\
+    |\theta_{\text{右}2} - \theta_{\text{右}1}| &= 20^\circ \implies \varphi_{\text{右}} = 10^\circ \\
+    \overline{\varphi} &\approx 9.992^\circ
+    \end{aligned}
+    \]
+
+
+    \subsubsection{光栅常数与未知波长计算}
+    已知黄1波长$\lambda_{\text{黄1}}=589.0\ \text{nm}$，由光栅方程得光栅常数：
+    \[
+    d = \frac{k\lambda_{\text{黄1}}}{\sin\varphi_{\text{黄1}}} \approx \frac{589.0}{\sin(9.992^\circ)} \approx 3393\ \text{nm}
+    \]
+
+    蓝紫光、绿光波长：
+    \[
+    \lambda_{\text{蓝紫}} = \frac{d\sin\overline{\varphi}_{\text{蓝紫}}}{k} \approx 442.8\ \text{nm},\\
+    \lambda_{\text{绿}} = \frac{d\sin\overline{\varphi}_{\text{绿}}}{k} \approx 554.4\ \text{nm}
+    \]
+
+    \subsubsection{角色散计算}
+    取黄1、黄2的波长差$\Delta\lambda=0.6\ \text{nm}$，角度差$\Delta\varphi\approx0.016^\circ$，则角色散：
+    \[
+    D = \frac{\Delta\varphi}{\Delta\lambda} \approx 4.655 \times 10^5\ \text{rad/m}
+    \]
+
+    \subsection{\zihao{5}\heiti 激光雕刻实验现象}
+
+    \zihao{5}\songti
+
+    雕刻完成的牛皮纸样品呈现出清晰的图案效果，如图所示：
+
+    % 预留图片插入位置，用户可自行添加雕刻效果图片
+\noindent \includegraphics[width=0.5\textwidth]{激光雕刻.jpg}
+    % 插入格式示例：\begin{figure}[htbp] \centering \includegraphics[width=0.8\linewidth]{engraving_effect.jpg} \caption{激光雕刻图案效果} \label{fig:engraving} \end{figure}
+
+
+
+    \section{\zihao{-4}\heiti 结\quad 论}
+
+    \zihao{5}\songti
+
+    本实验通过分光计的精准调整与应用，结合激光设备完成四项光学实验任务，实现了从基础理论到应用实践的全覆盖：
+
+    1. 三棱镜实验验证了光的折射及色散规律，测得蓝（紫）光、绿光最小偏向角分别约为$56^\circ46'$、$51^\circ38'$；
+
+    2. 衍射光栅实验掌握了光谱参数测量方法，求得光栅常数约$3.393 \times 10^{-6}\ \text{m}$，蓝紫光与绿光波长分别约为$442.8\ \text{nm}$、$554.4\ \text{nm}$；
+
+    3. 毛细管光学实验观察到散射光的特征分布，明确了强度台阶点与液体折射率的关联；
+
+    4. 激光雕刻实验利用热效应在牛皮纸上实现了清晰图案的复刻，掌握了激光设备的基础操作与参数匹配方法。
+
+    实验表明，光学技术既涵盖光的传播规律研究，也包括光的能量应用，精准的仪器操作与参数调控是实验成功的关键。
+
+
+
+\end{multicols}
+
+\end{document}

@@ -1,0 +1,86 @@
+{
+    "latex-workshop.latex.tools": [
+        {
+            "name": "latexmk",
+            "command": "latexmk",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-pdf",
+                "-quiet",
+                "%DOC%"
+            ]
+        },
+        {
+            "name": "xelatex",
+            "command": "xelatex",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-quiet",
+                "%DOC%"
+            ]
+        },
+        {
+            "name": "pdflatex",
+            "command": "pdflatex",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-quiet",
+                "%DOC%"
+            ]
+        },
+        {
+            "name": "bibtex",
+            "command": "bibtex",
+            "args": [
+                "%DOCFILE%"
+            ]
+        }
+    ],
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "xelatex",
+            "tools": ["xelatex"]
+        },
+        {
+            "name": "latexmk",
+            "tools": ["latexmk"]
+        },
+        {
+            "name": "pdflatex -> bibtex",
+            "tools": ["pdflatex", "bibtex"]
+        },
+        {
+            "name": "xelatex -> bibtex -> xelatex*2",
+            "tools": ["xelatex", "bibtex", "xelatex", "xelatex"]
+        }
+    ],
+    "latex-workshop.latex.clean.fileTypes": [
+        "*.aux", "*.bbl", "*.blg", "*.idx", "*.ind", "*.lof", "*.lot",
+        "*.out", "*.toc", "*.acn", "*.acr", "*.alg", "*.glg", "*.glo",
+        "*.gls", "*.ist", "*.fls", "*.log", "*.fdb_latexmk"
+    ],
+    "json.format.enable": false,
+    "editor.formatOnType": false,
+    "editor.formatOnSave": false,
+    "editor.formatOnPaste": false,
+    "latex-workshop.message.error.show": false,
+    "latex-workshop.message.warning.show": false,
+    "latex-workshop.showContextMenu": true,
+    "latex-workshop.intellisense.package.enabled": true,
+    "latex-workshop.latex.autoBuild.run": "onSave",
+    "latex-workshop.message.badbox.enabled": false,
+    "latex-workshop.linting.chktex.enabled": false,
+    "latex-workshop.output.hover.enabled": false,
+    "latex-workshop.problem.severity": {
+        "overfull": "ignore",
+        "underfull": "ignore",
+        "badness": "ignore"
+    },
+    "latex-workshop.message.log.show": false
+}

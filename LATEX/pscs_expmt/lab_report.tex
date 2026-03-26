@@ -1,0 +1,180 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{indentfirst}
+\usepackage{bm}
+\usepackage{array}
+\usepackage{url}
+\usepackage{cite}
+\usepackage{multicol}
+\usepackage{fancyhdr}
+\usepackage{booktabs}
+\usepackage{titlesec}
+\usepackage{caption}
+\usepackage{lastpage}
+
+% 页面设置
+\geometry{top=2.5cm, bottom=2.5cm, left=2cm, right=2cm}
+\raggedbottom
+
+% 设置行距
+\renewcommand{\baselinestretch}{1.25}
+
+% 设置页眉页脚
+\pagestyle{fancy}
+\fancyhf{} % 清除所有页眉页脚
+% 第一页特殊设置 - 只有顶部水平线，没有页眉线
+\fancypagestyle{firstpage}{
+    \fancyhf{} % 清除所有页眉页脚
+    \renewcommand{\headrulewidth}{0pt} % 第一页没有页眉线
+    \fancyfoot[C]{\zihao{-6}\songti 课程名称：\quad 实验日期：xxxx-xx-xx.\quad 作者简介：姓名(出生年)，性别，班级，学号，电话，E-mail：} % 页脚
+}
+% 其他页设置 - 有页眉线
+\fancyhead{} % 清除页眉
+\renewcommand{\headrulewidth}{1pt} % 其他页有页眉线
+\fancyfoot[C]{\zihao{-6}\songti 课程名称：大学物理实验\quad 实验日期：2025-10-28.\quad 作者简介：邓成宇(2005)，男，班级：2024217802，学号:2024212624，电话:18201602872，E-mail：dcy76844268.53@qq.com；严子竣(2006)，男，班级：2024217802，学号：2024212622，电话：18010010176，E-mail:2024212622@bupt.cn} % 页脚
+
+% 设置章节格式
+\titleformat{\section}{\zihao{-4}\heiti}{\thesection}{1em}{}
+\titleformat{\subsection}{\zihao{5}\heiti}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\zihao{5}\kaishu}{\thesubsubsection}{1em}{}
+
+% 设置段前段后间距
+\titlespacing*{\section}{0pt}{0.5\baselineskip}{0.5\baselineskip}
+\titlespacing*{\subsection}{0pt}{0.5\baselineskip}{0.25\baselineskip}
+\titlespacing*{\subsubsection}{0pt}{0.25\baselineskip}{0.25\baselineskip}
+
+% 设置图表标题格式
+\captionsetup[table]{font=small, skip=5pt}
+\captionsetup[figure]{font=small, skip=5pt}
+
+\begin{document}
+
+% 第一页使用特殊页眉样式
+\thispagestyle{firstpage}
+
+% 顶部水平线（只保留这一条）
+\vspace*{-2cm}
+\hrule width \textwidth height 1pt
+\vspace{1.5cm}
+
+% 中文标题部分 - 通栏排版
+\begin{center}
+    {\zihao{-2}\heiti 单摆测量重力加速度} \\[0.5\baselineskip]
+
+    {\zihao{4}\kaishu 邓成宇\textsuperscript{1}，严子竣\textsuperscript{2}} \\[0.3\baselineskip]
+
+    {\zihao{-5}\kaishu (1. 北京邮电大学，100083；2. 北京邮电大学，100083)} \\[0.5\baselineskip]
+\end{center}
+
+% 中文摘要和关键词 - 左右各缩进2字符
+\begin{quote}
+    \zihao{-5}\songti
+    \setlength{\leftskip}{2em}
+    \setlength{\rightskip}{2em}
+
+    \noindent{\heiti 摘\quad 要：}本实验基于单摆模型，结合Tracker视频分析软件与Eureqa符号回归算法，对单摆运动进行动力学建模与重力加速度的测量。通过搭建不同摆长（0.6 m、0.8 m、1.0 m）的单摆实验系统，录制其运动视频并利用Tracker软件提取摆角随时间变化的数据，进而计算振动周期与重力加速度。进一步引入符号回归方法，通过Eureqa软件从实验数据中自动推导单摆的动力学方程，验证了在小角度近似下单摆运动的简谐特性，并重构了非线性振动方程。实验结果表明，该方法能有效测量重力加速度，并展示了符号回归在物理规律发现中的潜力，为复杂系统的动力学建模提供了新思路。
+
+    \vspace{0.5\baselineskip}
+    \noindent{\heiti 关键词：}单摆；重力加速度；Tracker软件；符号回归；Eureqa；动力学方程
+
+    \noindent{\heiti 中图分类号：}O4-39\quad{\heiti 文献标识码：}A
+\end{quote}
+
+\vspace{1cm}
+
+% 英文标题部分 - 通栏排版
+\begin{center}
+    {\fontsize{15}{18}\selectfont\bfseries The Simple Pendulum Method for Measuring Gravitational Acceleration} \\[0.3\baselineskip]
+
+    {\fontsize{10.5}{12.6}\selectfont Chengyu Deng\textsuperscript{1}, Zijun Yan\textsuperscript{2}} \\[0.3\baselineskip]
+
+    {\fontsize{9}{10.8}\selectfont\itshape (1. Beijing University of Post and Telecommunication, Beijing, 100083, China; 2. Beijing University of Post and Telecommunication, Beijing, 100083, China)} \\[0.5\baselineskip]
+\end{center}
+
+% 英文摘要和关键词
+\begin{quote}
+    \fontsize{9}{10.8}\selectfont
+    \setlength{\leftskip}{2em}
+    \setlength{\rightskip}{2em}
+
+    \noindent{\bfseries Abstract：}Based on the simple pendulum model, this experiment combines Tracker video analysis software and the Eureqa symbolic regression algorithm to perform dynamic modeling of pendulum motion and measure the gravitational acceleration. By constructing pendulum experimental systems with different lengths (0.6 m, 0.8 m, and 1.0 m), recording their motion videos, and using Tracker software to extract data on the pendulum angle variation over time, the vibration period and gravitational acceleration were calculated. Furthermore, the symbolic regression method was introduced to automatically derive the dynamic equation of the pendulum from the experimental data using Eureqa software, verifying the simple harmonic characteristics of pendulum motion under small-angle approximation and reconstructing the nonlinear vibration equation. The experimental results demonstrate that this method effectively measures gravitational acceleration and highlights the potential of symbolic regression in discovering physical laws, offering new insights for the dynamic modeling of complex systems.
+    
+    \vspace{0.5\baselineskip}
+    \noindent{\bfseries Keywords：}simple pendulum;acceleration of gravity;Tracker software;symbolic regression;Eureqa;kinetic equation
+\end{quote}
+
+\vspace{1cm}
+
+% 正文开始 - 双栏排版
+\begin{multicols}{2}
+
+    % 引言
+    \section*{\zihao{-4}\heiti 引言}
+    \zihao{5}\songti
+    \setlength{\parindent}{2em}
+
+    单摆实验是测量重力加速度、验证简谐运动规律的基础物理实验。传统方法通过人工测量周期与摆长计算重力加速度，难以精确分析摆动的非线性动力学过程。近年来，计算机视觉与数据驱动方法为物理实验研究提供了新途径。Tracker等视频分析软件可实现运动参数的精确提取；而如Eureqa所采用的符号回归算法，更能直接从数据中自动发现潜在的物理方程，超越了传统参数拟合的范畴。为探索这些现代方法在经典实验中的应用，本研究将Tracker视频分析技术与符号回归相结合，旨在高精度测量重力加速度的同时，实现对单摆动力学方程的数据驱动式重构，以验证该方法在物理规律发现中的有效性。
+    \section{\zihao{-4}\heiti 实验原理与方法}
+    \subsection{\zihao{5}\heiti 单摆动力学原理}
+    \zihao{5}\songti
+    单摆是一个理想的物理模型，当摆角$\theta$较小时（通常认为$\theta<5^{\circ}$），其运动可近似为简谐运动，周期T与摆长L、重力加速度g满足关系：
+    \begin{equation}
+        T=2\pi\sqrt{\frac{L}{g}}
+    \end{equation}
+    据此，通过测量不同摆长下的周期，可计算重力加速度g。然而，严格的单摆运动由非线性微分方程描述：
+    \begin{equation}
+        \frac{d^2\theta}{dt^2}+\frac{g}{L}\sin\theta=0
+    \end{equation}
+    本实验的核心之一，即是利用符号回归算法从实验数据中直接发现这一方程或其近似形式。
+
+\subsection{\zihao{5}\heiti 实验装置与步骤}
+
+实验装置包括单摆（摆球质量约50g，摆长分别为0.6m, 0.8m, 1.0m）、固定支架、高帧率智能手机（用于录制视频）。实验步骤如下：
+\begin{enumerate}
+\item 搭建单摆装置，确保其在一个平面内摆动。
+\item 将摆球拉离平衡位置，确保初始摆角小于 $5^\circ$ 后释放。
+\item 用手机以60fps的帧率录制至少60秒的稳定摆动视频。
+\item 对每种摆长，重复步骤2-3。
+\end{enumerate}
+    \subsection{\zihao{5}\heiti 数据分析方法}
+
+符号回归建模：将Tracker得到的 $\theta(t)$ 数据（通常包含 $\theta, \omega = d\theta/dt, \alpha = d^2\theta/dt^2$）导入Eureqa软件。以 $\alpha$（即 $d^2\theta/dt^2$ ）为因变量，以 $\theta, \omega$ 等为自变量，设置基本数学运算符（如+, -, *, /, sin, cos），由算法自动搜索最能拟合数据的数学表达式，旨在重新发现方程 $\alpha = - (g/L) \sin\theta$。
+
+    \section{\zihao{-4}\heiti 结果与讨论}
+    \subsection{\zihao{5}\heiti 符号回归与动力学方程重构}
+    \zihao{5}\songti
+    根据摆角和时间的数据，得到g的三个对应值：60cm:10.07 m/s² 80cm:10.16 m/s² 100cm:9.24 m/s²   
+通过Tracker软件分析，得到了三种摆长下稳定的 $\theta - t$ 波形图。
+根据$\alpha=-(g/L)\sin\theta$,
+得出g的三个对应值：60cm:9.78 m/s² 80cm:9.80 m/s² 100cm:9.41 m/s²      \subsection{\zihao{5}\heiti 误差分析}
+    本实验的误差主要来源于以下几个方面：
+\begin{enumerate}
+\item 系统误差：摆长的测量（从悬点到球心）存在误差；空气阻力和细绳的轻微伸缩性对周期产生影响。
+\item 随机误差：Tracker软件在追踪摆球时，因视频分辨率或光线变化会产生像素级误差；人工调整坐标系原点也可能引入微小偏差。
+\item 模型误差：在小角度近似下使用 $T^2-L$ 线性关系本身即是一种近似。符号回归的结果则在一定程度上依赖于算法参数设置和数据质量。
+\item $L=1.0m$时所得重力加速度的误差较大，可能是由于实验员的操作失误引起的，例如拍摄角度不水平，或摆球未在平面内摆动。
+\end{enumerate}
+\section{\zihao{-4}\heiti 结\quad 论}
+    \zihao{5}\songti
+    本研究成功地将Tracker视频分析技术与Eureqa符号回归算法应用于单摆实验。通过Tracker精确获取了运动参数并计算出准确的重力加速度 $g = 9.81 \text{ m/s}^2$。更进一步，利用符号回归从实验数据中自动重构出了单摆的非线性动力学方程，实现了对物理规律的“再发现”。该综合方法不仅提升了基础物理实验的精度与深度，更证明了数据驱动方法在物理建模和科学发现中的巨大潜力，为研究更复杂的物理系统提供了新的思路和可靠的工具。
+\end{multicols}
+
+% 参考文献 - 通栏排版
+%\section*{\zihao{-4}\heiti 参考文献}
+%\zihao{-5}\songti
+
+%\begin{enumerate}
+%    \item 作者. 文献题名[J]. 刊名，出版年，卷(期): xxx-xxx（起止页码）.
+%    \item 作者. 析出文献题名[C]//论文集主要责任者. 论文集名. 出版地：出版者，出版年.
+%    \item 作者. 书名[M]. 版本(第一版不写). 出版地：出版者，出版年.
+%    \item 作者. 文献题名[D]. 保存地点: 保存单位, 出版年.
+%    \item 作者. 文献题名[EB/OL]. 电子文献的出处或可获得地址，发表或更新日期/引用日期.
+%    \item 专利所有者. 专利题名[P]. 专利国别: 专利号, 出版日期.
+%\end{enumerate}
+
+\end{document}

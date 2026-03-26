@@ -1,0 +1,315 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{geometry}
+\geometry{a4paper, margin=2.5cm}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fontspec}
+\setmonofont{DejaVu Sans Mono}
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny,
+    tabsize=4,
+    language=C,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{red}
+}
+
+\title{智能设备巡检调度系统实验报告}
+\author{}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+    \textbf{班级：}2024217802 \quad\textbf{姓名：}严子竣 \quad \textbf{学号：}2024212622
+\end{center}
+
+\section{需求分析}
+
+本程序模拟工业物联网场景下，工厂对生产线上多台智能巡检设备（如AGV机器人、传感器节点）进行周期性巡检调度的过程。由于设备电量有限，需按照“约瑟夫环”规则动态淘汰低电量设备，直至选出最优的核心巡检设备承担本轮主要巡检任务。
+
+\subsection{程序功能}
+\begin{itemize}
+    \item 根据用户输入的设备总数 \( n \)、起始位置 \( k \) 和基础步长 \( m \)，构建一个由 \( n \) 个设备节点组成的环形链表。
+    \item 从第 \( k \) 个设备开始，按\textbf{动态步长} \( m' = m + (100 -\)当前设备电量\( )/10 \) 进行遍历，每次遍历到的设备标记为“电量耗尽”并退出巡检队列。
+    \item 重复上述过程，直到队列中只剩一台设备，该设备即为核心巡检设备。
+    \item 输出每一轮被淘汰的设备编号以及淘汰后剩余的设备队列。
+    \item 输出最终选中的核心巡检设备编号及其电量。
+    \item \textbf{扩展功能}：输出核心设备的巡检路径（即淘汰顺序的逆序）。
+\end{itemize}
+
+\subsection{输入形式与值的范围}
+\begin{itemize}
+    \item 设备总数 \( n \)：整数，\( 1 \leq n \leq 1000 \)。
+    \item 起始位置 \( k \)：整数，\( 1 \leq k \leq n \)。
+    \item 基础步长 \( m \)：整数，\( 1 \leq m \leq 100 \)。
+\end{itemize}
+
+\subsection{输出形式}
+\begin{itemize}
+    \item 初始设备队列（从设备1开始显示）。
+    \item 每一轮淘汰的设备编号、电量、所用步长，以及淘汰后剩余的设备队列。
+    \item 最终核心巡检设备编号及其电量。
+    \item 核心设备巡检路径（淘汰顺序的逆序）。
+\end{itemize}
+
+\subsection{测试数据}
+\begin{itemize}
+    \item \textbf{正确输入示例}：\( n=5, k=2, m=3 \)
+    \item \textbf{错误输入示例}：\( n=0, k=6, m=101 \) 等，程序应给出错误提示并退出。
+\end{itemize}
+
+\section{概要设计}
+
+\subsection{问题解决思路}
+本程序采用单向循环链表存储设备节点，每个节点包含设备编号、剩余电量以及指向下一个节点的指针。淘汰过程模拟如下：
+\begin{enumerate}
+    \item 根据 \( k \) 定位起始节点。
+    \item 循环执行淘汰过程直到仅剩一个节点：
+        \begin{itemize}
+            \item 计算动态步长 \( \mathrm{step} = m + (100 - \mathrm{current.power})/10 \)。
+            \item 从当前节点开始，数 \( \mathrm{step} \) 步（包括当前节点为第1步），找到要淘汰的节点及其前驱。
+            \item 输出淘汰信息，将该节点从链表中删除。
+            \item 更新当前节点为被删节点的下一个节点，剩余设备数减1。
+            \item 输出剩余队列。
+        \end{itemize}
+    \item 输出核心设备信息，并逆序输出淘汰顺序作为巡检路径。
+\end{enumerate}
+
+\subsection{数据结构定义}
+\begin{itemize}
+    \item \textbf{节点结构体}：
+\begin{lstlisting}
+typedef struct node {
+    int id;          // 设备编号
+    int power;       // 剩余电量（10~100）
+    struct node* next; // 指向下一个节点
+} node;
+\end{lstlisting}
+    \item \textbf{循环链表}：由 \( n \) 个节点构成，尾节点的 \texttt{next} 指向头节点。
+\end{itemize}
+
+\subsection{主程序流程}
+\begin{enumerate}
+    \item 输入 \( n, k, m \)，并进行合法性检查。
+    \item 调用 \texttt{createCircularList(n)} 创建循环链表，随机生成每个节点的电量。
+    \item 定位到起始节点（第 \( k \) 个）。
+    \item 进入淘汰循环（\texttt{while(remain\_cnt > 1)}）：
+        \begin{itemize}
+            \item 计算步长，找到淘汰节点及其前驱。
+            \item 输出淘汰信息，删除节点，更新链表头指针（如需要）。
+            \item 输出剩余队列。
+        \end{itemize}
+    \item 输出核心设备信息及巡检路径。
+    \item 释放内存。
+\end{enumerate}
+
+\subsection{模块层次关系}
+\begin{verbatim}
+main
+├── createCircularList       // 创建链表
+├── printRemaining           // 打印剩余队列
+├── freeList                 // 释放链表（未被主程序直接调用，但可作为辅助）
+└── 主循环中的淘汰逻辑
+\end{verbatim}
+
+\section{详细设计}
+
+\subsection{数据类型定义}
+\begin{lstlisting}
+typedef struct node {
+    int id;
+    int power;
+    struct node* next;
+} node;
+\end{lstlisting}
+
+\subsection{核心算法伪代码}
+
+\subsubsection{创建循环链表}
+\begin{lstlisting}
+function createCircularList(n):
+    head = NULL, tail = NULL
+    for i = 1 to n:
+        newNode = allocate memory
+        newNode.id = i
+        newNode.power = random(10, 100)
+        newNode.next = NULL
+        if head == NULL:
+            head = newNode, tail = newNode
+        else:
+            tail.next = newNode, tail = newNode
+    tail.next = head
+    return head
+\end{lstlisting}
+
+\subsubsection{打印剩余队列}
+\begin{lstlisting}
+function printRemaining(start, count):
+    cur = start
+    for i = 0 to count-1:
+        print cur.id
+        if i < count-1: print ", "
+        cur = cur.next
+\end{lstlisting}
+
+\subsubsection{主循环淘汰逻辑}
+\begin{lstlisting}
+eliminated[]  // 存储淘汰顺序
+elimCount = 0
+current = 第 k 个节点
+remain_cnt = n
+while remain_cnt > 1:
+    step = m + (100 - current.power) / 10
+    if step < 1: step = 1
+    // 寻找淘汰节点 target 及其前驱 prev
+    target = current, prev = NULL
+    for i = 1 to step:
+        prev = target
+        target = target.next
+    // 记录淘汰
+    eliminated[elimCount++] = target.id
+    // 输出淘汰信息
+    print target.id, target.power, step
+    // 删除 target
+    prev.next = target.next
+    if target == head: head = target.next
+    // 下一轮起点
+    current = target.next
+    free(target)
+    remain_cnt--
+    // 输出剩余队列
+    printRemaining(current, remain_cnt)
+// 输出核心设备
+print current.id, current.power
+// 逆序输出淘汰顺序
+for i = elimCount-1 down to 0:
+    print eliminated[i]
+\end{lstlisting}
+
+\subsection{函数调用关系图}
+\begin{verbatim}
+main
+├── createCircularList
+├── printRemaining (在淘汰循环中多次调用)
+├── free (系统函数)
+└── 主循环中的算法（未独立成函数）
+\end{verbatim}
+
+\section{调试分析报告}
+
+\subsection{调试过程中遇到的问题及解决方法}
+\begin{enumerate}
+    \item \textbf{问题1：淘汰节点定位错误} \\
+    最初实现时，在 \texttt{for} 循环后多执行了一次 \texttt{target = target->next}，导致淘汰的节点后移了一位，链表结构被破坏，程序在剩余两个节点时出现死循环或提前退出。 \\
+    \textbf{解决方法}：删除多余语句。
+
+    \item \textbf{问题2：剩余队列打印不正确} \\
+    在淘汰节点后，未及时更新 \texttt{current} 和 \texttt{remain\_cnt} 就调用打印函数，导致显示与实际不符。 \\
+    \textbf{解决方法}：调整代码顺序，先删除节点、更新 \texttt{current} 和 \texttt{remain\_cnt}，再调用 \texttt{printRemaining}。
+\end{enumerate}
+
+\subsection{算法时空复杂度分析}
+\begin{itemize}
+    \item \textbf{时间复杂度}：外层循环执行 \( n-1 \) 次，每次循环需要移动 \( \mathrm{step} \) 步。在最坏情况下（步长最大），总移动次数约为 \( n \times \max(\mathrm{step}) \)。由于 \( \mathrm{step} = m + (100 - \mathrm{power})/10 \leq m + 9 \)，且 \( m \leq 100 \)，故时间复杂度为 \( O(n \times (m+9)) \)，即 \( O(n \times m) \)，满足题目要求不高于 \( O(n \times m) \)。
+    \item \textbf{空间复杂度}：主要存储 \( n \) 个节点，每个节点占用常数空间，故空间复杂度为 \( O(n) \)。此外，淘汰顺序数组占用 \( O(n) \) 空间。
+\end{itemize}
+
+\subsection{改进设想}
+\begin{itemize}
+    \item 可以将淘汰方式改为扣除一定电量，电量小于等于0再淘汰；
+    \item 可增加图形化界面或更友好的交互方式。
+\end{itemize}
+
+\subsection{经验与体会}
+通过本次实验，深入理解了循环链表的操作技巧，尤其是约瑟夫环问题的模拟实现。同时，对动态内存管理、指针操作有了更熟练的掌握。在调试过程中，逐步排查指针错误和逻辑错误，锻炼了程序调试能力。
+
+\section{用户使用说明}
+
+\begin{enumerate}
+    \item 编译并运行程序
+    \item 根据提示输入设备总数 \( n \)（1~1000 的正整数）。若输入不合理，将直接退出程序，需要重新运行，以下输入同理。
+    \item 输入起始位置 \( k \)（1~\( n \) 的正整数）。
+    \item 输入基础步长 \( m \)（1~100 的正整数）。
+    \item 程序将自动生成每个设备的随机电量（10\%~100\%），并开始模拟淘汰过程。
+    \item 每轮淘汰后，屏幕会显示被淘汰设备的信息以及剩余设备队列。
+    \item 模拟结束后，输出最终核心巡检设备及其电量，并输出核心设备巡检路径（淘汰顺序的逆序）。
+    \item 程序结束。
+\end{enumerate}
+
+\textbf{注意事项}：
+\begin{itemize}
+    \item 输入必须为整数，若输入非数字或超出范围，程序将报错并退出。
+    \item 电量随机生成，每次运行结果可能不同。
+\end{itemize}
+
+\section{测试结果}
+
+\subsection{测试用例1：基本功能测试}
+\begin{itemize}
+    \item \textbf{输入}：\( n=5, k=2, m=3 \)
+    \item \textbf{输出}：
+\begin{verbatim}
+Initial devices queue:
+[1, 2, 3, 4, 5]
+
+Round 1 eliminated device ID 5 (power: 47%, step: 8).
+Remaining devices after elimination:
+[2, 3, 4, 1]
+
+Round 2 eliminated device ID 1 (power: 88%, step: 4).
+Remaining devices after elimination:
+[3, 4, 2]
+
+Round 3 eliminated device ID 2 (power: 63%, step: 6).
+Remaining devices after elimination:
+[4, 3]
+
+Round 4 eliminated device ID 3 (power: 75%, step: 5).
+Remaining devices after elimination:
+[4]
+
+The core inspection device ID: 4 (power: 52%)
+Core device inspection path (reverse order of elimination): 3 2 1 5
+\end{verbatim}
+\end{itemize}
+
+\subsection{测试用例2：边界值测试}
+\begin{itemize}
+    \item \textbf{输入}：\( n=1, k=1, m=10 \)
+    \item \textbf{输出}：
+\begin{verbatim}
+Initial devices queue:
+[1]
+The core inspection device ID: 1 (power: 75%)
+Core device inspection path (reverse order of elimination): 
+\end{verbatim}
+    （无淘汰过程，直接输出核心设备，路径为空）
+\end{itemize}
+
+\subsection{测试用例3：非法输入测试}
+\begin{itemize}
+    \item \textbf{输入}：\( n=0 \)
+    \item \textbf{输出}：
+\begin{verbatim}
+Error: n must be within 1 and 1000!
+\end{verbatim}
+    \item \textbf{输入}：\( n=5, k=6 \)
+    \item \textbf{输出}：
+\begin{verbatim}
+Error: k must be within 1 and n!
+\end{verbatim}
+    \item \textbf{输入}：\( n=5, k=2, m=101 \)
+    \item \textbf{输出}：
+\begin{verbatim}
+Error: m must be within 1 and 100!
+\end{verbatim}
+\end{itemize}
+
+所有测试均通过，程序运行稳定，符合预期功能。
+
+\end{document}
