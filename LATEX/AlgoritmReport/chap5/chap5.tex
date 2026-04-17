@@ -1,0 +1,329 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{geometry}
+\geometry{a4paper, margin=2.5cm}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fontspec}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\setmonofont{DejaVu Sans Mono}
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny,
+    tabsize=4,
+    language=C,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{red}
+}
+
+\title{大数据推荐系统之稀疏矩阵运算引擎实验报告}
+\author{}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+    \textbf{班级：}2024217802 \quad \textbf{姓名：}严子竣 \quad \textbf{学号：}2024212622
+\end{center}
+
+\section{需求分析}
+在电商、短视频等大数据推荐系统中，用户-物品交互矩阵（如点击、收藏、评分）和物品-物品相似度矩阵是核心数据载体，且均为典型的稀疏矩阵（99\%以上元素为0）。直接用二维数组存储会导致内存爆炸，而三元组表仅存储非零元素，是工程中处理稀疏矩阵的主流方案。本实验要求实现一个稀疏矩阵运算引擎，支持读取两类矩阵并完成乘法运算，最终输出推荐权重矩阵。
+
+\subsection{程序功能}
+\begin{itemize}
+    \item 支持从文件或命令行读取两类矩阵：
+        \begin{enumerate}
+            \item 用户-物品交互矩阵（行 = 用户ID，列 = 物品ID，值 = 交互分值）；
+            \item 物品相似度矩阵（行 = 物品ID，列 = 物品ID，值 = 相似度）。
+        \end{enumerate}
+    \item 检查矩阵乘法条件：用户-物品矩阵列数必须等于物品相似度矩阵行数。
+    \item 执行稀疏矩阵乘法，计算用户对所有物品的推荐权重。
+    \item 仅保留权重不为0的元素，并按非零元三元组格式输出结果矩阵。
+\end{itemize}
+
+\subsection{输入形式与值的范围}
+\begin{itemize}
+    \item 输入格式：对于每个矩阵，首先输入三个整数 \texttt{rows cols num}，分别表示矩阵行数、列数和非零元个数。随后输入 \texttt{num} 行三元组，每行格式为 \texttt{row col val}（行列索引从0开始或从1开始均可，实验示例从0开始）。
+    \item 值的范围：\texttt{rows, cols} 为正整数，\texttt{num} $\ge 0$，交互分值和相似度值为浮点数。
+    \item 输入顺序：先输入用户-物品矩阵，再输入物品相似度矩阵。
+\end{itemize}
+
+\subsection{输出形式}
+\begin{itemize}
+    \item 若矩阵维度不满足乘法条件，输出：\texttt{错误：用户-物品矩阵的列数必须等于物品相似度矩阵的行数！}
+    \item 若条件满足，输出推荐权重矩阵的三元组列表，格式为：\texttt{用户X-产品Y：推荐权重：Z}（每行一个非零元）。
+    \item 权重为浮点数，保留两位小数显示。
+\end{itemize}
+
+\subsection{测试数据}
+\begin{itemize}
+    \item \textbf{正确输入示例}：用户-物品矩阵（3行$\times$4列，5个非零元），物品相似度矩阵（4行$\times$4列，4个非零元）——具体数据见6节测试用例。
+    \item \textbf{错误输入示例}：两矩阵维度不匹配，程序应输出错误提示并退出。
+\end{itemize}
+
+\section{概要设计}
+
+\subsection{问题解决思路}
+程序采用三元组顺序表存储稀疏矩阵，主要分为以下步骤：
+\begin{enumerate}
+    \item 从标准输入读取两个矩阵的三元组信息，动态分配内存存储。
+    \item 检查第一个矩阵的列数是否等于第二个矩阵的行数，若不等则报错退出。
+    \item 进行稀疏矩阵乘法：遍历第一个矩阵的每个非零元 $a_{ik}$，在第二个矩阵中查找所有行号为 $k$ 的非零元 $b_{kj}$，生成乘积项 $c_{ij} = a_{ik} \times b_{kj}$ 存入临时结果矩阵。
+    \item 由于同一位置 $(i,j)$ 可能由多个 $k$ 产生贡献，需要对临时结果进行排序并按相同行列合并累加。
+    \item 输出合并后的推荐权重矩阵（仅非零元）。
+    \item 释放所有动态分配的内存。
+\end{enumerate}
+
+\subsection{数据结构定义}
+\begin{itemize}
+    \item \textbf{三元组结构体}：
+\begin{lstlisting}
+typedef struct {
+    int row, col;
+    double val;
+} Triple;
+\end{lstlisting}
+    \item \textbf{稀疏矩阵结构体}：
+\begin{lstlisting}
+typedef struct {
+    int rows, cols, num;
+    Triple *data;
+} SparseMatrix;
+\end{lstlisting}
+\end{itemize}
+
+\subsection{主程序流程}
+\begin{enumerate}
+    \item 调用 \texttt{readMatrix()} 两次，分别读取用户-物品矩阵和物品相似度矩阵。
+    \item 检查 \texttt{user.cols == item.rows}，若不成立则输出错误并释放内存退出。
+    \item 调用 \texttt{multiply(\&user, \&item)} 得到临时乘积矩阵 \texttt{prod}。
+    \item 调用 \texttt{mergeDuplicates(\&prod)} 对 \texttt{prod} 排序并合并相同行列的元素，得到最终矩阵 \texttt{merged}，同时释放 \texttt{prod}。
+    \item 遍历输出 \texttt{merged} 中的非零元。
+    \item 释放所有矩阵内存，程序结束。
+\end{enumerate}
+
+\subsection{模块层次关系}
+\begin{verbatim}
+main
+├── readMatrix            // 读取稀疏矩阵
+├── multiply              // 稀疏矩阵乘法（生成未合并的三元组）
+├── mergeDuplicates       // 排序并合并重复项
+│   ├── qsort             // 标准库排序
+│   └── compareTriple     // 比较函数（先按行，再按列）
+├── freeMatrix            // 释放矩阵内存
+└── 主流程控制
+\end{verbatim}
+
+\section{详细设计}
+
+\subsection{数据类型定义}
+如前所述，核心数据结构为 \texttt{Triple} 和 \texttt{SparseMatrix}，详见概要设计部分。
+
+\subsection{核心算法伪代码}
+
+\subsubsection{读取稀疏矩阵}
+\begin{lstlisting}
+function readMatrix():
+    mat.rows, mat.cols, mat.num = 读取三个整数
+    mat.data = malloc(mat.num * sizeof(Triple))
+    for i = 0 to mat.num-1:
+        读取一行三元组存入 mat.data[i]
+    return mat
+\end{lstlisting}
+
+\subsubsection{稀疏矩阵乘法}
+\begin{lstlisting}
+function multiply(A, B):
+    C.rows = A.rows, C.cols = B.cols, C.num = 0
+    maxPossible = A.num * B.num
+    C.data = malloc(maxPossible * sizeof(Triple))
+    for i = 0 to A.num-1:
+        k = A.data[i].col
+        for j = 0 to B.num-1:
+            if B.data[j].row == k:
+                C.data[C.num].row = A.data[i].row
+                C.data[C.num].col = B.data[j].col
+                C.data[C.num].val = A.data[i].val * B.data[j].val
+                C.num++
+    realloc C.data 到实际大小 C.num
+    return C
+\end{lstlisting}
+
+\subsubsection{排序与合并}
+\begin{lstlisting}
+function compareTriple(a, b):
+    if a.row != b.row: return a.row - b.row
+    return a.col - b.col
+
+function mergeDuplicates(mat):
+    if mat.num == 0: 返回空矩阵
+    qsort(mat.data, mat.num, sizeof(Triple), compareTriple)
+    merged = malloc(mat.num * sizeof(Triple))
+    cnt = 0; merged[0] = mat.data[0]
+    for i = 1 to mat.num-1:
+        if mat.data[i] 与 merged[cnt] 行列相同:
+            merged[cnt].val += mat.data[i].val
+        else:
+            cnt++; merged[cnt] = mat.data[i]
+    cnt++
+    结果矩阵.num = cnt
+    结果矩阵.data = malloc(cnt * sizeof(Triple))
+    复制 merged[0..cnt-1] 到结果矩阵.data
+    释放临时数组 merged
+    返回结果矩阵
+\end{lstlisting}
+
+\subsection{函数调用关系图}
+\begin{verbatim}
+main()
+  |
+  +-- readMatrix()         (调用2次)
+  |
+  +-- multiply()
+  |      |
+  |      +-- malloc / realloc
+  |
+  +-- mergeDuplicates()
+  |      |
+  |      +-- qsort()  (使用 compareTriple)
+  |      +-- malloc / memcpy
+  |
+  +-- freeMatrix()         (调用3次)
+\end{verbatim}
+
+\section{调试分析报告}
+
+\subsection{调试过程中遇到的问题及解决方法}
+\begin{enumerate}
+    \item \textbf{问题1：读取矩阵时未分配内存导致段错误} \\
+    初始代码中 \texttt{readMatrix()} 直接使用未初始化的 \texttt{mat.data} 指针进行写入，导致程序崩溃。\\
+    \textbf{解决方法}：在读取 \texttt{num} 后立即调用 \texttt{malloc} 分配足够空间。
+
+    \item \textbf{问题2：乘积矩阵 \texttt{prod} 未分配内存} \\
+    在 \texttt{main()} 中声明 \texttt{SparseMatrix prod;} 后未分配 \texttt{data} 内存就直接使用，引发未定义行为。\\
+    \textbf{解决方法}：在 \texttt{multiply()} 函数内根据最大可能非零元数量分配内存，并在返回前 \texttt{realloc} 至实际大小。
+
+    \item \textbf{问题3：合并重复项函数 \texttt{sort()} 存在逻辑错误和未初始化警告} \\
+    原函数中局部变量 \texttt{B.data} 未分配内存，且合并算法错误地多次添加相同元素。\\
+    \textbf{解决方法}：重写为 \texttt{mergeDuplicates()}，利用 \texttt{qsort} 排序后线性扫描合并，并正确管理内存。
+
+    \item \textbf{问题4：输出循环使用已释放矩阵的成员变量} \\
+    修正前代码在 \texttt{freeMatrix(\&prod)} 后仍使用 \texttt{prod.num} 作为循环上界，导致无输出。\\
+    \textbf{解决方法}：改为使用合并后矩阵 \texttt{merged.num} 进行输出循环。
+
+    \item \textbf{问题5：中文输出乱码} \\
+    在 Windows 控制台直接输出中文出现乱码。\\
+    \textbf{解决方法}：在 \texttt{main()} 开头添加 \texttt{system("chcp 65001 > nul");} 将控制台编码切换为 UTF-8，并确保源文件保存为 UTF-8 编码。
+\end{enumerate}
+
+\subsection{算法时空复杂度分析}
+\begin{itemize}
+    \item \textbf{时间复杂度}：设用户-物品矩阵非零元个数为 $n_A$，物品相似度矩阵非零元个数为 $n_B$。乘法阶段需双重循环遍历，时间复杂度为 $O(n_A \cdot n_B)$。排序阶段时间复杂度为 $O(n_C \log n_C)$，其中 $n_C \le n_A \cdot n_B$。合并阶段为 $O(n_C)$。因此总时间复杂度为 $O(n_A \cdot n_B + n_C \log n_C)$，在最坏情况下（两矩阵均较稠密）可接受，对于高度稀疏的推荐系统数据，实际运行效率较高。
+    \item \textbf{空间复杂度}：临时乘积矩阵最多需要 $O(n_A \cdot n_B)$ 空间，排序时额外使用 $O(n_C)$ 辅助空间，最终结果矩阵占用 $O(n_{\text{merged}})$ 空间。总体空间复杂度为 $O(n_A \cdot n_B)$。对于实际工程中的稀疏矩阵，该空间消耗仍在可控范围内。
+\end{itemize}
+
+\section{用户使用说明}
+\begin{enumerate}
+    \item 按照提示输入第一个矩阵（用户-物品矩阵）的信息：
+        \begin{itemize}
+            \item 第一行输入三个整数：行数 列数 非零元个数。
+            \item 接下来输入 \texttt{非零元个数} 行，每行格式：\texttt{行号 列号 值}（行列号通常从0开始）。
+        \end{itemize}
+    \item 紧接着输入第二个矩阵（物品相似度矩阵）的信息，格式同上。
+    \item 程序将自动进行维度检查：
+        \begin{itemize}
+            \item 若不符合乘法规则，输出错误信息并退出。
+            \item 若符合，则计算并输出推荐权重矩阵的所有非零元，每行格式为 \texttt{用户X-产品Y：推荐权重：Z}。
+        \end{itemize}
+    \item 查看输出结果，程序结束。
+\end{enumerate}
+
+\textbf{注意事项}：
+\begin{itemize}
+    \item 输入的行列号必须与声明的矩阵维度一致，否则可能导致越界错误。
+    \item 浮点数输入支持小数形式，如 \texttt{1.0}、\texttt{0.8}。
+    \item 若出现中文乱码，请将源文件保存为UTF-8编码，并确保控制台支持UTF-8（程序已自动设置代码页）。
+\end{itemize}
+
+\section{测试结果}
+
+\subsection{测试环境}
+\begin{itemize}
+    \item 操作系统：Windows 11
+    \item 编译器：MinGW-W64 GCC 8.1.0
+    \item 编译选项：\texttt{gcc chap5.exp.c -o test.exe}
+\end{itemize}
+
+\subsection{测试用例1：正常乘法（题目示例）}
+\textbf{输入数据}：
+\begin{verbatim}
+3 4 5
+0 0 1.0
+0 1 0.8
+1 1 0.5
+1 2 0.7
+2 0 0.9
+4 4 4
+0 0 1.0
+1 1 0.6
+2 2 1.0
+3 3 0.8
+\end{verbatim}
+\textbf{预期结果}：输出用户对各物品的推荐权重，非零元个数为 $5 \times 1 = 5$。\\
+\textbf{实际输出}：
+\begin{verbatim}
+用户0-产品0：推荐权重：1.00
+用户0-产品1：推荐权重：0.48
+用户1-产品1：推荐权重：0.30
+用户1-产品2：推荐权重：0.70
+用户2-产品0：推荐权重：0.90
+\end{verbatim}
+
+\subsection{测试用例2：维度不匹配}
+\textbf{输入数据}：
+\begin{verbatim}
+2 3 1
+0 0 1.0
+4 4 1
+0 0 1.0
+\end{verbatim}
+\textbf{实际输出}：
+\begin{verbatim}
+错误：用户-物品矩阵的列数必须等于物品相似度矩阵的行数！
+\end{verbatim}
+程序正确检测并退出。
+
+\subsection{测试用例3：乘积结果含重复项需合并}
+\textbf{输入数据}（构造使得同一位置有多个贡献）：
+\begin{verbatim}
+2 2 2
+0 0 2.0
+0 1 3.0
+2 2 2
+0 0 1.0
+1 0 1.0
+\end{verbatim}
+\textbf{实际输出}：
+\begin{verbatim}
+用户0-产品0：推荐权重：5.00
+\end{verbatim}
+（$2.0\times1.0 + 3.0\times1.0 = 5.0$，合并正确）
+
+\subsection{测试用例4：空矩阵}
+\textbf{输入数据}（用户-物品无非零元）：
+\begin{verbatim}
+2 3 0
+3 4 1
+0 0 1.0
+\end{verbatim}
+\textbf{实际输出}：无输出，程序正常结束。
+\begin{verbatim}
+\end{verbatim}
+
+所有测试用例均通过，程序运行稳定，符合实验要求。
+
+\end{document}
