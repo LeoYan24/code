@@ -1,6 +1,4 @@
 import java.util.Random;
-import java.util.Vector;
-import java.util.Enumeration;
 
 public class NetworkSimulator {
     // This is the number of entities in the simulator

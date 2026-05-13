@@ -1,10 +1,10 @@
 import java.util.Vector;
 
 public class EventListImpl implements EventList {
-    private Vector data;
+    private Vector<Event> data;
 
     public EventListImpl() {
-        data = new Vector();
+        data = new Vector<Event>();
     }
 
     public boolean add(Event e) {
