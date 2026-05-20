@@ -1,0 +1,128 @@
+\documentclass[10pt, aspectratio=169]{beamer}
+\usepackage{ctex}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% 设置主题
+\usetheme{Madrid}
+\usecolortheme{default}
+
+\title{无线网络随机接入：Idle Sense 协议分析}
+\subtitle{基于信道观测的自适应竞争窗口调节}
+\date{}
+
+\begin{document}
+
+% --- 幻灯片 1：定义与吞吐量模型 ---
+\begin{frame}{Idle Sense方法详解：信道竞争分析 (1/3)}
+\begin{block}{基础变量与概率定义}
+    \begin{columns}[T]
+        \column{0.45\textwidth}
+        \begin{itemize}
+            \item \(P_e\)：有主机尝试发送帧的概率
+            \item \(P_t\)：成功传输的概率
+            \item \(P_c\)：碰撞的概率
+        \end{itemize}
+        \column{0.55\textwidth}
+        \begin{itemize}
+            \item \(P_i\)：每时隙闲置的概率
+            \item \(CW\)：竞争窗口 (Contention Window)
+            \item \(N\)：主机数 (Number of stations)
+        \end{itemize}
+    \end{columns}
+    \begin{align*}
+        P_e(CW) = \frac{2}{CW + 1},\quad P_t = N P_e (1 - P_e)^{N-1} ,\quad P_c = 1 - P_t - P_i ,\quad P_i = (1 - P_e)^N
+    \end{align*}
+\end{block}
+
+\begin{block}{最大化吞吐量 \(X(P_e)\)}
+    假设 \(S_d\) 为平均帧大小，吞吐量公式为：
+    \[
+    X(P_e) = \frac{P_e S_d}{P_t T_t + P_c T_c + P_i T_{SLOT}}
+    \]
+    \footnotesize{\textit{注：\(T_t\)：平均传输用时，\(T_c\)：平均碰撞用时，\(T_{SLOT}\)：时隙时长 (实际计算考虑最差情况取上界)}}
+\end{block}
+\end{frame}
+
+% --- 幻灯片 2：最优化推导 ---
+\begin{frame}{Idle Sense方法详解：信道竞争分析 (2/3)}
+\begin{block}{求解最优发送概率 \(P_e^{opt}\)}
+    最大化吞吐量，等价于最小化代价函数：
+    \[
+    Cost(P_e) = \frac{T_c P_c / T_{SLOT} + P_i}{P_t}
+    \]
+    \textbf{观察：} \(N\) 或 \(CW\) 增大 \(\implies Cost^{opt}\) 增大，符合直观
+
+    为求极小值，令 \(\dfrac{dCost}{dP_e} = 0\)，可得：
+    \[
+    1 - N P_e^{opt} = \eta (1 - P_e^{opt})^N, \quad \text{其中 } \eta = 1 - \frac{T_{SLOT}}{T_c}
+    \]
+\end{block}
+\end{frame}
+
+\begin{frame}{Idle Sense方法详解：信道竞争分析 (3/3)}
+\begin{block}{\(N \to \infty\) 时的渐近解}
+    引入辅助变量 \(\zeta = N P_e^{opt}\)，则上述方程可化为：
+    \[
+    1 - \zeta = \eta \left(1 - \frac{\zeta}{N}\right)^N
+    \]
+    \vspace{5pt}
+    当 \(N \to \infty\) 时，\(\left(1 - \frac{\zeta}{N}\right)^N \to e^{-\zeta}\)：
+    \[
+    1 - \zeta = \eta e^{-\zeta}
+    \]
+    \textbf{结论：} 此方程可求数值解 \(\zeta\)，最优发送概率近似为：
+    \[
+    \boxed{P_e^{opt} = (1 - \frac{\zeta}{N})^N \approx e^{-\zeta}}
+    \]
+\end{block}
+\end{frame}
+
+% --- 幻灯片 3：Idle Sense 方法原理 (新内容) ---
+\begin{frame}{Idle Sense方法原理(1/2)}
+\begin{block}{引入可观测量}
+    \(n_i\)：连续空闲时隙的数量，服从\textbf{几何分布}$G(P_i)$，因此
+    \[
+    \bar{n}_i = \frac{P_i}{1 - P_i} \quad (\text{连续空闲时隙的平均值})
+    \]
+    \textbf{核心原理：} 每个主机实时估计 \(\bar{n}_i\)，调整 \(CW\) 使得 \(n_i \to \bar{n}_i^{\text{target}}\)。
+\end{block}
+\end{frame}
+
+\begin{frame}{Idle Sense方法原理(2/2)}
+\begin{block}{基于 AIMD 的发送概率 \(P_e\) 控制}
+    利用文献中给出的关系式：
+    \[P_e(CW)=\frac{2}{CW+1}\]
+    为了动态调整 \(P_e\) 趋近最优值，采用 AIMD (加性增乘性减) 控制策略：
+    \begin{columns}
+        \column{0.48\textwidth}
+        \centering
+        \textbf{情况 A：\(\bar{n}_i\) 偏小 (碰撞过多)}
+        \begin{itemize}
+            \item[\(\implies\)] \(CW\) 应变大
+            \item[\(\implies\)] \(P_e\) \textbf{乘性减} 
+        \end{itemize}
+        \textbf{控制公式：}
+        \[
+        P_e \rightarrow P_e \cdot \alpha \ (\alpha < 1) \implies CW \rightarrow \frac{CW}{\alpha}
+        \]
+        \[\left(\text{采用近似}P_e(CW)\approx \frac{2}{CW}\right)\]
+        
+        \column{0.48\textwidth}
+        \centering
+        \textbf{情况 B：\(\bar{n}_i\) 偏大 (空闲过多)}
+        \begin{itemize}
+            \item[\(\implies\)] \(CW\) 应变小
+            \item[\(\implies\)] \(P_e\) \textbf{加性增}
+        \end{itemize}
+        \textbf{控制公式：}
+        \[
+        P_e \rightarrow P_e + \varepsilon \implies CW \rightarrow \frac{2 CW}{2 + \varepsilon CW}
+        \]
+        \[\left(CW=\frac{2}{P_e}-1,CW'=\frac{2}{P_e+\varepsilon}-1\right)\]
+    \end{columns}
+    \vspace{5pt}
+\end{block}
+\end{frame}
+
+\end{document}
