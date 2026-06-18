@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include<string.h>
 #include<windows.h>
-
+//测试用例  D:/Repository/code/c/chap2    D:/Repository/code/.vscode
 #define MAX_DEPTH 10000   // 最大嵌套深度
 #define MAX_LINE_LEN 4096 // 每行最大长度
 #define MAX_FILE 1000     // 最大文件数量
@@ -60,6 +60,8 @@ int main(){
         int error = 0;//错误类型
         char curline[MAX_LINE_LEN];//当前检查行
         int num = 0;//行数
+
+        printf("正在检查文件[%s]\n", filepath[j]);
 
         while( fgets(curline ,sizeof(curline) ,fp) ){
             num++;

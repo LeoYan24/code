@@ -77,8 +77,8 @@
     \item 对每个文件依次处理：
         \begin{itemize}
             \item 逐行读取文件内容。
-            \item 遇到左括号 ‘(’、‘[’、‘{’时，将其字符和所在行号压入栈。
-            \item 遇到右括号 ‘)’、‘]’、‘}’ 时，检查栈是否为空：若空则报告“未匹配的右括号”；否则检查栈顶左括号是否与当前右括号匹配：若匹配则弹出栈顶，否则报告“嵌套顺序错误”。
+            \item 遇到左括号 ‘(’、‘[’、‘\{’时，将其字符和所在行号压入栈。
+            \item 遇到右括号 ‘)’、‘]’、‘\}’ 时，检查栈是否为空：若空则报告“未匹配的右括号”；否则检查栈顶左括号是否与当前右括号匹配：若匹配则弹出栈顶，否则报告“嵌套顺序错误”。
             \item 若文件读取完毕栈非空，则报告栈底左括号所在行号为“未匹配的左括号”。
             \item 一旦发现任何错误，立即停止当前文件的检查，输出错误信息后继续处理下一个文件。
         \end{itemize}
@@ -323,8 +323,11 @@ main
 \end{itemize}
 \textbf{输出结果}：
 \begin{verbatim}
+正在检查文件[D:\test\valid\valid1.c]
 文件[D:\test\valid\valid1.c]括号匹配合法
+正在检查文件[D:\test\valid\valid2.cpp]
 文件[D:\test\valid\valid2.cpp]括号匹配合法
+正在检查文件[D:\test\valid\valid3.java]
 文件[D:\test\valid\valid3.java]括号匹配合法
 \end{verbatim}
 
@@ -350,7 +353,9 @@ main
 \end{itemize}
 \textbf{输出结果}：
 \begin{verbatim}
+正在检查文件[D:/test/invalid/error1.c]
 第3行：方括号嵌套顺序错误
+正在检查文件[D:/test/invalid/error2.cpp]
 第2行：未匹配的左圆括号
 \end{verbatim}
 
