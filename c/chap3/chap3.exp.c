@@ -2,7 +2,9 @@
 #include<stdlib.h>
 #include<string.h>
 #include<windows.h>
-//测试用例  D:/Repository/code/c/chap2    D:/Repository/code/.vscode
+/*测试用例  D:/Repository/code/c/chap2
+    D:/Repository/code/.vscode    
+    D:/Repository/code/c/chap3/test */
 #define MAX_DEPTH 10000   // 最大嵌套深度
 #define MAX_LINE_LEN 4096 // 每行最大长度
 #define MAX_FILE 1000     // 最大文件数量
