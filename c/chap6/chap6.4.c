@@ -9,5 +9,5 @@ typedef struct CSNode {
 int Count(CSTree root){
     if( root == NULL ) return 0;
     if (root->firstchild == NULL) return 1 + Count(root->nextsibling);
-    else return Count(root->firstchild) + Count(root->nextsibling);
+    else return 1 + Count(root->firstchild) + Count(root->nextsibling);
 }

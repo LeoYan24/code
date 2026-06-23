@@ -4,7 +4,7 @@
 
 typedef int adjmatrix[maxvtxnum][maxvtxnum];
 
-/**
+/*
  * 求邻接矩阵 A 的传递闭包矩阵 C
  * @param A 输入的邻接矩阵 (有向图)
  * @param C 输出的传递闭包矩阵
